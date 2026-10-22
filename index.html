@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffd93d">
+  <meta name="description" content="Học thuộc danh mục tài liệu hồ sơ đảng viên">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Học thuộc HS">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Học thuộc hồ sơ đảng viên</title>
+  <style>
+    :root {
+      --ink: #111;
+      --paper: #fff8e7;
+      --yellow: #ffd93d;
+      --pink: #ff6b9d;
+      --blue: #4cc9f0;
+      --green: #6bff95;
+      --orange: #ff9f43;
+      --purple: #b388ff;
+      --red: #ff5252;
+      --bd: 3px solid var(--ink);
+      --sh: 5px 5px 0 var(--ink);
+      --sh-s: 3px 3px 0 var(--ink);
+      --fs: clamp(15px, 1.1vw + 12px, 18px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: "Space Grotesk", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+      font-size: var(--fs);
+      color: var(--ink);
+      background: var(--paper);
+      background-image: radial-gradient(var(--ink) 1.2px, transparent 1.2px);
+      background-size: 22px 22px;
+      min-height: 100dvh;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      line-height: 1.4;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+      border: var(--bd);
+      background: #fff;
+      box-shadow: var(--sh-s);
+      transition: transform .08s, box-shadow .08s;
+      touch-action: manipulation
+    }
+
+    button:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 var(--ink)
+    }
+
+    button:active {
+      transform: translate(3px, 3px);
+      box-shadow: 0 0 0 var(--ink)
+    }
+
+    input {
+      font: inherit;
+      border: var(--bd);
+      padding: .6em .8em;
+      background: #fff;
+      box-shadow: var(--sh-s);
+      outline: none;
+      min-width: 0
+    }
+
+    input:focus {
+      background: var(--yellow)
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(10px, 2.5vw, 24px)
+    }
+
+    /* header */
+    header {
+      background: var(--yellow);
+      border: var(--bd);
+      box-shadow: var(--sh);
+      padding: clamp(12px, 2.5vw, 22px);
+      position: relative;
+      margin-bottom: clamp(14px, 2.5vw, 22px);
+      overflow: hidden
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      right: -30px;
+      top: -30px;
+      width: 110px;
+      height: 110px;
+      background: var(--pink);
+      border: var(--bd);
+      border-radius: 50%
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      right: 60px;
+      bottom: -26px;
+      width: 70px;
+      height: 70px;
+      background: var(--blue);
+      border: var(--bd);
+      transform: rotate(18deg)
+    }
+
+    h1 {
+      font-size: clamp(1.3rem, 4.5vw, 2.4rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -.5px;
+      line-height: 1.05;
+      position: relative;
+      z-index: 1;
+      max-width: 80%
+    }
+
+    header p {
+      font-weight: 700;
+      margin-top: .4em;
+      position: relative;
+      z-index: 1;
+      max-width: 80%;
+      font-size: .9em
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--ink);
+      color: #fff;
+      padding: .1em .5em;
+      transform: rotate(-2deg);
+      margin-right: .3em
+    }
+
+    /* tabs */
+    nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(6px, 1.5vw, 14px);
+      margin-bottom: clamp(14px, 2.5vw, 22px)
+    }
+
+    nav button {
+      padding: .7em .4em;
+      font-weight: 900;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .15em;
+      font-size: .95em;
+      line-height: 1.1
+    }
+
+    nav button small {
+      font-weight: 700;
+      text-transform: none;
+      font-size: .72em;
+      opacity: .85
+    }
+
+    nav button .ic {
+      font-size: 1.5em
+    }
+
+    nav button[data-m="read"] {
+      background: var(--blue)
+    }
+
+    nav button[data-m="quiz"] {
+      background: var(--green)
+    }
+
+    nav button[data-m="prio"] {
+      background: var(--pink)
+    }
+
+    nav button.on {
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 0 var(--ink);
+      outline: 4px solid var(--ink);
+      outline-offset: 2px
+    }
+
+    @media(max-width:480px) {
+      nav button small {
+        display: none
+      }
+    }
+
+    .panel {
+      display: none
+    }
+
+    .panel.on {
+      display: block
+    }
+
+    /* toolbar */
+    .bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+      align-items: center
+    }
+
+    .bar input {
+      flex: 1 1 200px
+    }
+
+    .chip {
+      padding: .45em .8em;
+      font-weight: 800;
+      font-size: .85em
+    }
+
+    .chip.on {
+      background: var(--ink);
+      color: #fff
+    }
+
+    .chip.c1.on {
+      background: var(--ink)
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      font-weight: 700;
+      font-size: .85em;
+      margin-bottom: 14px;
+      background: #fff;
+      border: var(--bd);
+      padding: .6em .8em;
+      box-shadow: var(--sh-s)
+    }
+
+    .dot {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      border: 2px solid var(--ink);
+      vertical-align: -.15em;
+      margin-right: .3em
+    }
+
+    /* read list */
+    .sec {
+      margin-bottom: 22px
+    }
+
+    .sec-h {
+      border: var(--bd);
+      box-shadow: var(--sh-s);
+      padding: .6em .9em;
+      font-weight: 900;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 6px;
+      z-index: 5
+    }
+
+    .sec-h small {
+      font-weight: 700;
+      text-transform: none
+    }
+
+    .sec.p1 .sec-h {
+      background: var(--orange)
+    }
+
+    .sec.p2 .sec-h {
+      background: var(--purple)
+    }
+
+    .sec.p3 .sec-h {
+      background: var(--blue)
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      grid-template-columns: 1fr
+    }
+
+    @media(min-width:760px) {
+      .list {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    .item {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+      background: #fff;
+      border: var(--bd);
+      box-shadow: var(--sh-s);
+      padding: 0;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      position: relative
+    }
+
+    .item .no {
+      flex: 0 0 auto;
+      min-width: 2.6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.25em;
+      border-right: var(--bd);
+      padding: .4em .3em;
+      background: var(--blue)
+    }
+
+    .sec.p2 .item .no {
+      background: var(--purple)
+    }
+
+    .sec.p3 .item .no {
+      background: var(--blue)
+    }
+
+    .sec.p1 .item .no {
+      background: var(--orange)
+    }
+
+    .item .tx {
+      padding: .55em .7em .55em 0;
+      font-weight: 600;
+      align-self: center;
+      flex: 1;
+      min-width: 0;
+      overflow-wrap: anywhere
+    }
+
+    /* nút xem mô tả: ô vuông neo-brutalism, nằm gọn trong thẻ */
+    .ico-i {
+      width: 1em;
+      height: 1em;
+      display: block;
+      fill: currentColor
+    }
+
+    .item .info-btn {
+      flex: 0 0 auto;
+      align-self: center;
+      width: 38px;
+      height: 38px;
+      margin: 6px 8px 6px 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: var(--ink);
+      background: var(--yellow);
+      border: 2.5px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      transition: transform .08s, box-shadow .08s, background .08s
+    }
+
+    .item .info-btn:hover {
+      background: var(--pink);
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 var(--ink)
+    }
+
+    .item .info-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 0 0 0 var(--ink)
+    }
+
+    .item .info-btn:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 2px
+    }
+
+    .i-badge {
+      display: inline-flex;
+      vertical-align: -5px;
+      width: 22px;
+      height: 22px;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      background: var(--yellow);
+      border: 2px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      margin: 0 2px
+    }
+
+    .item.star {
+      background: var(--yellow)
+    }
+
+    .item.star .no {
+      background: var(--ink) !important;
+      color: var(--yellow)
+    }
+
+    .item.star .tx::before {
+      content: "★ ";
+      font-weight: 900
+    }
+
+    .item.star {
+      box-shadow: 5px 5px 0 var(--pink)
+    }
+
+    .item.star .info-btn {
+      background: #fff
+    }
+
+    .item.star .info-btn:hover {
+      background: var(--pink)
+    }
+
+    .hide .item .tx {
+      color: transparent;
+      background: repeating-linear-gradient(45deg, #ddd 0 8px, #eee 8px 16px);
+      user-select: none
+    }
+
+    .hide .item .tx::before {
+      color: transparent
+    }
+
+    .hide .item:not(.reveal) .info-btn {
+      display: none
+    }
+
+    .hide .item.reveal .tx {
+      color: var(--ink);
+      background: none
+    }
+
+    .hide .item.reveal .tx::before {
+      color: var(--ink)
+    }
+
+    .empty {
+      padding: 20px;
+      text-align: center;
+      font-weight: 800;
+      background: #fff;
+      border: var(--bd)
+    }
+
+    mark {
+      background: var(--green);
+      padding: 0 .1em
+    }
+
+    /* quiz */
+    .quiz {
+      display: grid;
+      gap: clamp(12px, 2vw, 20px);
+      grid-template-columns: 1fr
+    }
+
+    @media(min-width:860px) {
+      .quiz {
+        grid-template-columns: 1.15fr .85fr;
+        align-items: start
+      }
+    }
+
+    .card {
+      background: #fff;
+      border: var(--bd);
+      box-shadow: var(--sh);
+      padding: clamp(12px, 2.5vw, 22px);
+      position: relative
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 14px
+    }
+
+    .stat {
+      border: var(--bd);
+      padding: .4em .2em;
+      text-align: center;
+      font-weight: 900;
+      box-shadow: var(--sh-s);
+      line-height: 1.1
+    }
+
+    .stat b {
+      display: block;
+      font-size: 1.4em
+    }
+
+    .stat span {
+      font-size: .65em;
+      text-transform: uppercase;
+      font-weight: 800
+    }
+
+    .stat:nth-child(1) {
+      background: var(--blue)
+    }
+
+    .stat:nth-child(2) {
+      background: var(--green)
+    }
+
+    .stat:nth-child(3) {
+      background: var(--red)
+    }
+
+    .stat:nth-child(4) {
+      background: var(--yellow)
+    }
+
+    .prog {
+      height: 18px;
+      border: var(--bd);
+      background: #fff;
+      margin-bottom: 14px;
+      overflow: hidden
+    }
+
+    .prog i {
+      display: block;
+      height: 100%;
+      background: repeating-linear-gradient(45deg, var(--pink) 0 10px, var(--orange) 10px 20px);
+      width: 0;
+      transition: width .3s
+    }
+
+    .qlab {
+      display: inline-block;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 800;
+      padding: .15em .6em;
+      font-size: .8em;
+      margin-bottom: .6em;
+      transform: rotate(-1.5deg)
+    }
+
+    .qtxt {
+      font-size: clamp(1.15rem, 3.2vw, 1.75rem);
+      font-weight: 900;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+      min-height: 3.8em;
+      display: flex;
+      align-items: center
+    }
+
+    .qapp {
+      position: absolute;
+      top: -14px;
+      right: 10px;
+      border: var(--bd);
+      padding: .1em .6em;
+      font-weight: 900;
+      font-size: .8em;
+      background: var(--blue);
+      transform: rotate(3deg)
+    }
+
+    .qstar {
+      background: var(--yellow)
+    }
+
+    .fb {
+      margin-top: 12px;
+      border: var(--bd);
+      padding: .7em .9em;
+      font-weight: 800;
+      display: none;
+      box-shadow: var(--sh-s)
+    }
+
+    .fb.ok {
+      display: block;
+      background: var(--green)
+    }
+
+    .fb.no {
+      display: block;
+      background: var(--red);
+      color: #fff
+    }
+
+    .fb.sk {
+      display: block;
+      background: var(--yellow)
+    }
+
+    .fb .big {
+      font-size: 1.6em;
+      font-weight: 900
+    }
+
+    .pad {
+      background: var(--purple)
+    }
+
+    .screen {
+      border: var(--bd);
+      background: #111;
+      color: var(--green);
+      font-family: "Courier New", monospace;
+      font-weight: 900;
+      font-size: clamp(2.2rem, 8vw, 3.4rem);
+      text-align: right;
+      padding: .1em .35em;
+      margin-bottom: 12px;
+      min-height: 1.4em;
+      box-shadow: inset 4px 4px 0 #333;
+      overflow: hidden;
+      white-space: nowrap
+    }
+
+    .screen.shake {
+      animation: sh .35s
+    }
+
+    @keyframes sh {
+
+      20%,
+      60% {
+        transform: translateX(-8px)
+      }
+
+      40%,
+      80% {
+        transform: translateX(8px)
+      }
+    }
+
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(6px, 1.6vw, 10px)
+    }
+
+    .keys button {
+      font-weight: 900;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      padding: clamp(.45em, 2.2vh, .7em) 0;
+      background: #fff
+    }
+
+    .keys button:nth-child(3n+1) {
+      background: var(--yellow)
+    }
+
+    .keys button:nth-child(3n+2) {
+      background: var(--blue)
+    }
+
+    .keys button:nth-child(3n) {
+      background: var(--pink)
+    }
+
+    .keys .del {
+      background: var(--red) !important;
+      color: #fff;
+      font-size: clamp(1rem, 3.5vw, 1.3rem)
+    }
+
+    .keys .ok {
+      background: var(--green) !important;
+      font-size: clamp(1rem, 3.5vw, 1.3rem)
+    }
+
+    .keys .zero {
+      background: var(--orange) !important
+    }
+
+    .row2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px
+    }
+
+    .row2 button {
+      padding: .6em;
+      font-weight: 800;
+      font-size: .9em
+    }
+
+    .opts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px
+    }
+
+    .note {
+      font-size: .82em;
+      font-weight: 700;
+      margin-top: 10px;
+      opacity: .85
+    }
+
+    .done {
+      text-align: center
+    }
+
+    .done h2 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: .4em
+    }
+
+    .done button {
+      padding: .7em 1.2em;
+      font-weight: 900;
+      margin: 6px;
+      background: var(--green)
+    }
+
+    /* mobile: keep keypad reachable */
+    @media(max-width:859px) {
+      .qtxt {
+        min-height: 0
+      }
+
+      .stats {
+        gap: 6px
+      }
+    }
+
+    @media(max-height:620px) and (orientation:landscape) {
+      .quiz {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .keys button {
+        padding: .3em 0;
+        font-size: 1.2rem
+      }
+
+      .screen {
+        font-size: 1.8rem
+      }
+    }
+
+    .foot {
+      text-align: center;
+      font-weight: 800;
+      font-size: .8em;
+      margin: 24px 0 8px
+    }
+
+    .top {
+      position: fixed;
+      right: 12px;
+      bottom: calc(12px + env(safe-area-inset-bottom));
+      background: var(--pink);
+      font-weight: 900;
+      padding: .5em .8em;
+      z-index: 20;
+      display: none
+    }
+
+    .top.show {
+      display: block
+    }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(17, 17, 17, .55);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .2s, visibility .2s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible
+    }
+
+    .modal-box {
+      background: var(--paper);
+      border: var(--bd);
+      box-shadow: var(--sh);
+      max-width: 560px;
+      width: 100%;
+      max-height: 85dvh;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(18px) scale(.97);
+      transition: transform .22s cubic-bezier(.22, 1, .36, 1);
+      overflow: hidden;
+    }
+
+    .modal-overlay.open .modal-box {
+      transform: translateY(0) scale(1)
+    }
+
+    .modal-head {
+      padding: 14px 16px 12px;
+      border-bottom: var(--bd);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      flex-shrink: 0;
+      background: var(--yellow);
+    }
+
+    .modal-num {
+      flex: 0 0 auto;
+      font-size: 1.6rem;
+      font-weight: 900;
+      width: 2.4rem;
+      height: 2.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: var(--bd);
+      background: var(--ink);
+      color: var(--yellow);
+      line-height: 1;
+    }
+
+    .modal-title {
+      flex: 1;
+      font-weight: 900;
+      font-size: 1.05rem;
+      line-height: 1.3
+    }
+
+    .modal-pl {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 800;
+      padding: .1em .5em;
+      margin-top: .35em;
+      border: var(--bd);
+      transform: rotate(-1.5deg)
+    }
+
+    .modal-body {
+      padding: 18px 18px 20px;
+      overflow-y: auto;
+      flex: 1;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-body p {
+      line-height: 1.7;
+      font-size: .97rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .modal-body p+p {
+      margin-top: 1em
+    }
+
+    .modal-body .modal-label {
+      display: inline-block;
+      background: var(--ink);
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 900;
+      padding: .15em .55em;
+      margin-bottom: .6em;
+      letter-spacing: .03em;
+    }
+
+    .modal-close {
+      flex: 0 0 auto;
+      background: var(--red);
+      color: #fff;
+      border: var(--bd);
+      padding: .3em .65em;
+      font-size: 1.2rem;
+      font-weight: 900;
+      box-shadow: none;
+      align-self: flex-start;
+    }
+
+    .modal-close:hover {
+      background: var(--ink);
+      transform: none;
+      box-shadow: none
+    }
+
+    .modal-close:active {
+      transform: none;
+      box-shadow: none
+    }
+
+    .modal-star-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .3em;
+      background: var(--pink);
+      border: var(--bd);
+      padding: .15em .5em;
+      font-size: .75rem;
+      font-weight: 900;
+      margin-left: .4em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <h1><span class="tag">HỌC THUỘC</span>Danh mục tài liệu hồ sơ đảng viên</h1>
+    </header>
+    <button id="installBtn"
+      style="display:none;width:100%;margin:-6px 0 18px;padding:.8em;font-weight:900;background:var(--green);text-transform:uppercase">📲
+      Cài app về điện thoại</button>
+
+    <nav id="tabs">
+      <button data-m="read"><span class="ic">📖</span>Xem &amp; đọc<small>Đọc toàn bộ</small></button>
+      <button data-m="quiz"><span class="ic">🧮</span>Ôn tập<small>Nhập số TT</small></button>
+      <button data-m="prio"><span class="ic">⭐</span>Ôn ưu tiên<small>Mục hay dùng</small></button>
+    </nav>
+
+    <!-- MODE 1 -->
+    <section class="panel" id="p-read">
+      <div class="legend">
+        <span><span class="dot" style="background:var(--yellow)"></span>★ Mục ưu tiên</span>
+        <span><span class="dot" style="background:var(--orange)"></span>PL 01</span>
+        <span><span class="dot" style="background:var(--purple)"></span>PL 02</span>
+        <span><span class="dot" style="background:var(--blue)"></span>PL 03</span>
+        <span style="font-style:italic;opacity:.8">💡 Nhấn <span class="i-badge"><svg class="ico-i" viewBox="0 0 24 24" aria-hidden="true"><rect x="9.5" y="3" width="5" height="5"/><path d="M7 10.5h7.5V18H17v3H7v-3h2.5v-4.5H7z"/></svg></span> để xem mô tả chi tiết</span>
+      </div>
+      <div class="bar">
+        <input id="q" type="search" placeholder="🔍 Tìm theo số hoặc tên…" autocomplete="off">
+      </div>
+      <div class="bar" id="filters">
+        <button class="chip on" data-f="all">Tất cả</button>
+        <button class="chip" data-f="star">★ Ưu tiên</button>
+        <button class="chip" data-f="1">PL 01</button>
+        <button class="chip" data-f="2">PL 02</button>
+        <button class="chip" data-f="3">PL 03</button>
+        <button class="chip" id="hideBtn">🙈 Che tên (tự kiểm tra)</button>
+      </div>
+      <div id="readList"></div>
+    </section>
+
+    <!-- MODE 2 & 3 -->
+    <section class="panel" id="p-quiz">
+      <div id="quizRoot"></div>
+    </section>
+  </div>
+  <button class="top" id="top">↑ Lên đầu</button>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+    <div class="modal-box" id="modalBox">
+      <div class="modal-head">
+        <div class="modal-num" id="modalNum"></div>
+        <div style="flex:1;min-width:0">
+          <div class="modal-title" id="modalTitle"></div>
+          <div id="modalMeta"></div>
+        </div>
+        <button class="modal-close" id="modalClose" aria-label="Đóng">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const DATA = [{ "n": 1, "t": "Lý lịch của người xin vào Đảng", "p": 1 }, { "n": 2, "t": "Lý lịch đảng viên", "p": 1 }, { "n": 3, "t": "Phiếu đảng viên", "p": 1 }, { "n": 4, "t": "Phiếu bổ sung hồ sơ đảng viên", "p": 1 }, { "n": 5, "t": "Quyết định kết nạp đảng viên", "p": 1 }, { "n": 6, "t": "Quyết định kết nạp lại người vào Đảng (của cấp uỷ có thẩm quyền)", "p": 1 }, { "n": 7, "t": "Quyết định công nhận đảng viên chính thức", "p": 1 }, { "n": 8, "t": "Quyết định của cấp uỷ có thẩm quyền xoá tên đảng viên dự bị", "p": 1 }, { "n": 9, "t": "Quyết định công nhận đảng viên sau khi khắc phục, thực hiện đúng quy định về thẩm quyền, thủ tục kết nạp đảng viên", "p": 1 }, { "n": 10, "t": "Quyết định công nhận đảng viên chính thức sau khi khắc phục, thực hiện đúng quy định về thẩm quyền, thủ tục", "p": 1 }, { "n": 11, "t": "Quyết định hủy quyết định kết nạp đảng viên sai quy định, không đúng tiêu chuẩn, điều kiện", "p": 1 }, { "n": 12, "t": "Quyết định hủy quyết định kết nạp lại đảng viên sai quy định, không đúng tiêu chuẩn, điều kiện", "p": 1 }, { "n": 13, "t": "Quyết định hủy quyết định công nhận đảng viên chính thức sai quy định, không đúng tiêu chuẩn, điều kiện", "p": 1 }, { "n": 14, "t": "Quyết định khôi phục quyền của đảng viên", "p": 1 }, { "n": 15, "t": "Quyết định nối lại sinh hoạt đảng của đảng viên", "p": 1 }, { "n": 16, "t": "Quyết định xoá tên trong danh sách đảng viên (theo Điều 8 Điều lệ Đảng)", "p": 1 }, { "n": 17, "t": "Quyết định cho đảng viên ra khỏi Đảng", "p": 1 }, { "n": 18, "t": "Giấy xác nhận tuổi Đảng", "p": 1 }, { "n": 19, "t": "Quyết định phát thẻ đảng viên cho cá nhân đảng viên", "p": 1 }, { "n": 20, "t": "Quyết định tặng Huy hiệu Đảng đối với cá nhân đảng viên", "p": 1 }, { "n": 21, "t": "Quyết định truy tặng Huy hiệu Đảng đối với cá nhân đảng viên", "p": 1 }, { "n": 22, "t": "Quyết định kỷ luật Đảng", "p": 1 }, { "n": 23, "t": "Quyết định khen thưởng", "p": 1 }, { "n": 24, "t": "Quyết định đình chỉ sinh hoạt đảng", "p": 1 }, { "n": 25, "t": "Quyết định đình chỉ cấp ủy", "p": 1 }, { "n": 26, "t": "Quyết định gia hạn đình chỉ sinh hoạt đảng", "p": 1 }, { "n": 27, "t": "Quyết định gia hạn đình chỉ cấp ủy", "p": 1 }, { "n": 28, "t": "Quyết định giải quyết khiếu nại", "p": 1 }, { "n": 29, "t": "Quyết định giải quyết tố cáo", "p": 1 }, { "n": 30, "t": "Quyết định đình chỉ chức vụ trong đảng đối với cá nhân", "p": 1 }, { "n": 31, "t": "Quyết định cho trở lại sinh hoạt cấp ủy (hoặc sinh hoạt đảng)", "p": 1 }, { "n": 32, "t": "Thông báo kết luận giải quyết tố cáo", "p": 1 }, { "n": 33, "t": "Thông báo về việc không giải quyết khiếu nại kỷ luật đảng", "p": 1 }, { "n": 34, "t": "Kết luận kiểm tra của Ủy ban Kiểm tra/Đoàn kiểm tra khi có dấu hiệu vi phạm", "p": 1 }, { "n": 35, "t": "Kết luận minh oan/không vi phạm của cơ quan có thẩm quyền", "p": 1 }, { "n": 36, "t": "Quyết định kỷ luật hành chính (khiển trách/cảnh cáo/hạ bậc lương/giáng chức/cách chức/buộc thôi việc)", "p": 1 }, { "n": 37, "t": "Đơn xin vào Đảng", "p": 2 }, { "n": 38, "t": "Giấy chứng nhận học lớp nhận thức về Đảng", "p": 2 }, { "n": 39, "t": "Giấy giới thiệu người vào Đảng", "p": 2 }, { "n": 40, "t": "Nghị quyết giới thiệu đoàn viên ưu tú vào Đảng", "p": 2 }, { "n": 41, "t": "Nghị quyết giới thiệu đoàn viên công đoàn vào Đảng", "p": 2 }, { "n": 42, "t": "Tổng hợp ý kiến nhận xét của các đoàn thể chính trị - xã hội nơi sinh hoạt và chi uỷ (hoặc chi bộ) nơi cư trú đối với người vào Đảng", "p": 2 }, { "n": 43, "t": "Nghị quyết đề nghị kết nạp đảng viên của chi bộ", "p": 2 }, { "n": 44, "t": "Báo cáo về việc thẩm định nghị quyết của chi bộ đề nghị kết nạp đảng viên của đảng uỷ bộ phận", "p": 2 }, { "n": 45, "t": "Nghị quyết đề nghị kết nạp đảng viên của đảng uỷ cơ sở", "p": 2 }, { "n": 46, "t": "Giấy chứng nhận học lớp đảng viên mới", "p": 2 }, { "n": 47, "t": "Bản tự kiểm điểm của đảng viên dự bị (đề nghị công nhận đảng viên chính thức)", "p": 2 }, { "n": 48, "t": "Bản nhận xét đảng viên dự bị của đảng viên được phân công giúp đỡ", "p": 2 }, { "n": 49, "t": "Tổng hợp ý kiến nhận xét của các đoàn thể chính trị - xã hội nơi sinh hoạt và chi uỷ (hoặc chi bộ) nơi cư trú đối với đảng viên dự bị", "p": 2 }, { "n": 50, "t": "Nghị quyết đề nghị công nhận đảng viên chính thức của chi bộ", "p": 2 }, { "n": 51, "t": "Báo cáo về việc thẩm định nghị quyết của chi bộ đề nghị công nhận đảng viên chính thức của đảng uỷ bộ phận", "p": 2 }, { "n": 52, "t": "Nghị quyết đề nghị công nhận đảng viên chính thức của đảng uỷ cơ sở", "p": 2 }, { "n": 53, "t": "Giấy chứng nhận người vào Đảng đang trong thời gian được tổ chức đảng giúp đỡ, xem xét kết nạp của cấp uỷ cơ sở", "p": 2 }, { "n": 54, "t": "Giấy giới thiệu sinh hoạt đảng chính thức", "p": 2 }, { "n": 55, "t": "Giấy giới thiệu sinh hoạt đảng tạm thời", "p": 2 }, { "n": 56, "t": "Giấy giới thiệu sinh hoạt đảng ra ngoài nước", "p": 2 }, { "n": 57, "t": "Phiếu công tác chính thức ngoài nước", "p": 2 }, { "n": 58, "t": "Phiếu công tác tạm thời ngoài nước", "p": 2 }, { "n": 59, "t": "Giấy giới thiệu sinh hoạt đảng nội bộ", "p": 2 }, { "n": 60, "t": "Phiếu báo đảng viên chuyển sinh hoạt đảng chính thức", "p": 2 }, { "n": 61, "t": "Bản tự kiểm điểm hằng năm (3 năm gần nhất) và khi chuyển sinh hoạt đảng", "p": 2 }, { "n": 62, "t": "Bản tự kiểm điểm tại thời điểm chuyển sinh hoạt đảng (có nhận xét của chi bộ)", "p": 2 }, { "n": 63, "t": "Bản kiểm điểm trong thời gian sinh hoạt đảng ở nước ngoài (có xác nhận cấp ủy ngoài nước)", "p": 2 }, { "n": 64, "t": "Quyết định biểu dương đảng viên bằng văn bản hoặc ghi trong nghị quyết chi bộ", "p": 2 }, { "n": 65, "t": "Bản tự kiểm điểm của đảng viên vi phạm trong quá trình xem xét kỷ luật", "p": 2 }, { "n": 66, "t": "Thông báo vi phạm của cơ quan pháp luật/bản sao bản án hình sự gửi cấp ủy", "p": 2 }, { "n": 67, "t": "Quyết định giải quyết khiếu nại về kỷ luật hành chính", "p": 2 }, { "n": 68, "t": "Bản án hình sự có hiệu lực pháp luật (bản sao có chứng thực)", "p": 2 }, { "n": 69, "t": "Kết luận thanh tra/kiểm toán liên quan đến cá nhân đảng viên", "p": 2 }, { "n": 70, "t": "Bằng/chứng chỉ lý luận chính trị (sơ cấp/trung cấp/cao cấp/cử nhân)", "p": 2 }, { "n": 71, "t": "Quyết định cấp lại Huy hiệu Đảng bị mất đối với cá nhân đảng viên", "p": 2 }, { "n": 72, "t": "Quyết định cấp lại thẻ đảng viên bị mất cho cá nhân đảng viên", "p": 2 }, { "n": 73, "t": "Quyết định đổi lại thẻ đảng viên bị hỏng, bị sai cho cá nhân đảng viên", "p": 2 }, { "n": 74, "t": "Quyết định của Tòa án nhân dân/Trích lục hộ tịch về thay đổi họ tên", "p": 2 }, { "n": 75, "t": "Khai sinh gốc/Kết luận đính chính ngày tháng năm sinh của cơ quan có thẩm quyền", "p": 2 }, { "n": 76, "t": "Xác nhận của UBND/cơ quan công an về thay đổi quê quán, nơi cư trú", "p": 2 }, { "n": 77, "t": "Quyết định xác định lại dân tộc của UBND cấp tỉnh", "p": 2 }, { "n": 78, "t": "Kết luận hủy văn bằng/xác định văn bằng không hợp lệ", "p": 2 }, { "n": 79, "t": "Đơn xin miễn công tác và sinh hoạt đảng", "p": 2 }, { "n": 80, "t": "Giấy xác nhận của cơ sở y tế có thẩm quyền (khi miễn vì lý do sức khỏe)", "p": 2 }, { "n": 81, "t": "Nghị quyết chi bộ về việc cho đảng viên miễn công tác và sinh hoạt đảng", "p": 2 }, { "n": 82, "t": "Văn bản bổ sung lý lịch sau khi về nước", "p": 2 }, { "n": 83, "t": "Giấy chứng tử của đảng viên", "p": 2 }, { "n": 84, "t": "Bản tường trình về việc mất hồ sơ đảng viên kèm bản kiểm điểm trách nhiệm", "p": 2 }, { "n": 85, "t": "Phiếu đảng viên cũ (các phiên bản trước - không hủy, lưu làm lịch sử)", "p": 2 }, { "n": 86, "t": "Các văn bằng, chứng chỉ chuyên môn, nghiệp vụ, ngoại ngữ, tin học, bồi dưỡng chức danh, ngạch, chứng chỉ hành nghề (bản sao có chứng thực)", "p": 3 }, { "n": 87, "t": "Các quyết định điều động, bổ nhiệm…", "p": 3 }, { "n": 88, "t": "Quyết định nghỉ hưu", "p": 3 }, { "n": 89, "t": "Quyết định nghỉ mất sức lao động", "p": 3 }, { "n": 90, "t": "Quyết định phục viên / chuyển ngành (lực lượng vũ trang)", "p": 3 }, { "n": 91, "t": "Quyết định xuất ngũ (lực lượng vũ trang)", "p": 3 }, { "n": 92, "t": "Công văn của cấp ủy cơ sở giới thiệu người vào Đảng đã được chi bộ, đảng uỷ cơ sở làm thủ tục đề nghị kết nạp Đảng", "p": 3 }, { "n": 93, "t": "Công văn của cấp ủy có thẩm quyền giới thiệu người vào Đảng đã được cấp uỷ cơ sở làm thủ tục đề nghị kết nạp đảng", "p": 3 }, { "n": 94, "t": "Công văn giới thiệu người vào Đảng đã được cấp uỷ có thẩm quyền ra quyết định kết nạp Đảng", "p": 3 }, { "n": 95, "t": "Công văn giới thiệu người vào Đảng đã được cấp uỷ có thẩm quyền ra quyết định kết nạp vào Đảng nhưng chuyển ra ngoài đảng bộ cấp xã (tương đương)", "p": 3 }, { "n": 96, "t": "Giấy giới thiệu (của đảng uỷ, chi uỷ cơ sở) cử đảng viên hoặc cấp uỷ viên đi thẩm tra lý lịch của người vào Đảng", "p": 3 }, { "n": 97, "t": "Công văn đề nghị thẩm tra lý lịch của người vào Đảng", "p": 3 }, { "n": 98, "t": "Công văn chỉ đạo việc làm lại, thực hiện đúng các quy định về thẩm quyền, thủ tục xem xét, quyết định kết nạp đảng viên", "p": 3 }, { "n": 99, "t": "Công văn chỉ đạo việc làm lại, thực hiện đúng các quy định về thẩm quyền, thủ tục công nhận đảng viên chính thức", "p": 3 }, { "n": 100, "t": "Phiếu báo đảng viên được công nhận chính thức", "p": 3 }, { "n": 101, "t": "Phiếu báo đảng viên ra khỏi Đảng", "p": 3 }, { "n": 102, "t": "Phiếu báo đảng viên từ trần", "p": 3 }, { "n": 103, "t": "Tờ khai đề nghị tặng Huy hiệu Đảng", "p": 3 }, { "n": 104, "t": "Tờ khai đề nghị truy tặng Huy hiệu Đảng", "p": 3 }];
+    const PRIO = [1, 2, 3, 4, 5, 7, 16, 17, 19, 20, 22, 23, 37, 38, 39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 52, 54, 61, 62, 86, 87, 88, 91];
+    const PSET = new Set(PRIO);
+    const PLNAME = { 1: 'PL 01 · Số hóa trước', 2: 'PL 02 · Số hóa sau', 3: 'PL 03 · Số hóa sau cùng' };
+    const PLDESC = { 1: 'Dùng ngay sau số hóa', 2: 'Dùng khi đối chiếu, kiểm tra, rà soát', 3: 'Số hóa sau cùng' };
+    const PLCOLOR = { 1: 'var(--orange)', 2: 'var(--purple)', 3: 'var(--blue)' };
+    const BY = {}; DATA.forEach(d => BY[d.n] = d);
+    const $ = s => document.querySelector(s);
+    const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const store = {
+      get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d } catch (e) { return d } },
+      set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) { } }
+    };
+
+    /* ===== MÔ TẢ CHI TIẾT TỪNG LOẠI VĂN BẢN ===== */
+    const DESC = {
+      1: `Lý lịch của người xin vào Đảng là văn bản khai nhân thân quan trọng nhất trong toàn bộ quy trình kết nạp, do chính người xin vào Đảng tự khai và chịu trách nhiệm trước tổ chức. Nó ghi lại toàn bộ lịch sử cá nhân - từ ngày sinh, quê quán, thành phần gia đình cho đến quá trình học tập, công tác, tham gia các tổ chức, thậm chí lịch sử chính trị của cha mẹ, vợ/chồng và anh chị em ruột.\n\nLý do văn bản này tồn tại xuất phát từ nguyên tắc cơ bản của Đảng: người được kết nạp phải đủ tiêu chuẩn về chính trị, phẩm chất và lý lịch trong sạch. Qua tờ khai này, tổ chức đảng có đầy đủ cơ sở để tiến hành thẩm tra, xác minh thông tin tại địa phương, từ đó loại bỏ những trường hợp không đủ tiêu chuẩn hoặc cố tình khai man. Đây là tài liệu gốc không thể thiếu, được lưu giữ suốt đời đảng viên.`,
+
+      2: `Lý lịch đảng viên là phiên bản chính thức, chuẩn hóa của lý lịch được lập sau khi cá nhân đã được kết nạp vào Đảng. Khác với lý lịch khai trước khi vào Đảng, đây là tài liệu được tổ chức đảng lập và quản lý, phản ánh toàn bộ thông tin nhân thân theo mẫu thống nhất của Ban Tổ chức Trung ương.\n\nVăn bản này là nền tảng để Đảng quản lý từng đảng viên trong suốt cả cuộc đời hoạt động - từ khâu kết nạp, điều động, bổ nhiệm, khen thưởng, kỷ luật cho đến khi nghỉ hưu hoặc từ trần. Nó phục vụ trực tiếp cho các quyết định nhân sự và là căn cứ pháp lý để đánh giá, xếp loại đảng viên định kỳ.`,
+
+      3: `Phiếu đảng viên là tờ tóm tắt thông tin cốt lõi nhất về một đảng viên, được thiết kế để tra cứu nhanh và phục vụ quản lý dữ liệu tập trung. Phiếu ghi những thông tin ngắn gọn nhưng đầy đủ như họ tên, ngày vào Đảng, chức vụ, đơn vị công tác và phân loại đảng viên.\n\nVăn bản này ra đời từ nhu cầu thực tiễn quản lý số lượng lớn đảng viên trong hệ thống. Thay vì phải mở toàn bộ hồ sơ dày, phiếu đảng viên cho phép cán bộ tổ chức tra cứu, thống kê, lập danh sách và phục vụ công tác báo cáo số liệu một cách nhanh chóng. Trong thời đại số hóa, phiếu đảng viên còn là cơ sở để nhập dữ liệu vào hệ thống quản lý đảng viên điện tử.`,
+
+      4: `Phiếu bổ sung hồ sơ đảng viên được lập định kỳ hằng năm hoặc khi có sự thay đổi quan trọng trong cuộc đời đảng viên - chẳng hạn thay đổi chức vụ, trình độ học vấn, tình trạng gia đình, nơi ở hoặc kết quả xếp loại đảng viên cuối năm.\n\nVăn bản này tồn tại vì thông tin về con người không đứng yên mà liên tục biến động. Một bộ hồ sơ chỉ lập một lần sẽ nhanh chóng lỗi thời. Phiếu bổ sung đảm bảo hồ sơ đảng viên luôn phản ánh đúng thực trạng hiện tại, phục vụ cho việc quy hoạch cán bộ, bổ nhiệm và đánh giá chất lượng đảng viên ở từng thời điểm.`,
+
+      5: `Quyết định kết nạp đảng viên là văn bản pháp lý cao nhất, đánh dấu thời điểm một người chính thức trở thành đảng viên Đảng Cộng sản Việt Nam. Đây là quyết định của cấp ủy có thẩm quyền - thường là cấp ủy trực thuộc cấp huyện hoặc tương đương - sau khi toàn bộ quy trình xem xét, thẩm tra và đề nghị từ cơ sở đã hoàn tất.\n\nVăn bản này là "giấy khai sinh" của tư cách đảng viên, xác lập mốc thời gian bắt đầu tính thâm niên đảng và thời gian dự bị 12 tháng. Không có quyết định này, mọi thủ tục trước đó dù đầy đủ đến đâu cũng không có giá trị pháp lý. Đây là tài liệu trung tâm được lưu trữ vĩnh viễn trong hồ sơ.`,
+
+      6: `Quyết định kết nạp lại người vào Đảng được ban hành trong trường hợp đặc biệt: đảng viên đã bị xóa tên hoặc ra khỏi Đảng vì lý do chính đáng, nay được xem xét và chấp thuận cho gia nhập trở lại sau khi đã hoàn thành nghĩa vụ và khắc phục vi phạm (nếu có).\n\nVăn bản này phản ánh chính sách nhân văn của Đảng - không đóng cửa vĩnh viễn với những người có thể phục thiện và đáp ứng đầy đủ tiêu chuẩn. Tuy nhiên, quy trình kết nạp lại thường chặt chẽ hơn lần đầu, đòi hỏi sự thẩm tra kỹ lưỡng hơn để đảm bảo người được nhận lại thực sự xứng đáng.`,
+
+      7: `Quyết định công nhận đảng viên chính thức được ban hành sau khi đảng viên dự bị đã trải qua đủ 12 tháng thử thách kể từ ngày kết nạp, được chi bộ đánh giá đủ tư cách và cấp ủy có thẩm quyền chấp thuận. Từ thời điểm này, đảng viên có đầy đủ quyền biểu quyết, bầu cử và ứng cử trong nội bộ Đảng.\n\nGiai đoạn dự bị 12 tháng là "thời gian thử việc" để tổ chức đảng quan sát, đánh giá xem đảng viên mới có thực sự tu dưỡng, rèn luyện, chấp hành đường lối và kỷ luật đảng hay không. Quyết định công nhận chính thức là cột mốc bước ngoặt, hoàn thiện quá trình gia nhập và nâng cao vị thế pháp lý của đảng viên.`,
+
+      8: `Quyết định xóa tên đảng viên dự bị được ban hành khi một đảng viên trong thời gian dự bị không đáp ứng được các tiêu chuẩn cần thiết, vi phạm kỷ luật nghiêm trọng hoặc bị phát hiện có vấn đề về lý lịch mà trước đó chưa được phát hiện.\n\nVăn bản này tồn tại để bảo vệ tính nghiêm minh và chất lượng của đội ngũ đảng viên. Thời gian dự bị chính là "van lọc" cuối cùng trước khi một người trở thành đảng viên chính thức. Việc dừng lại và xóa tên ở giai đoạn này, dù khó khăn, là cần thiết để đảm bảo những người không đủ tiêu chuẩn không tiếp tục ở lại tổ chức.`,
+
+      9: `Quyết định này được ban hành trong các trường hợp mà trước đây việc kết nạp đảng viên có sai sót về thủ tục hoặc thẩm quyền (không phải sai về tiêu chuẩn của người được kết nạp). Sau khi cơ sở đã khắc phục, hoàn thiện lại đúng quy trình, cấp ủy có thẩm quyền ra quyết định công nhận hồi tố.\n\nVăn bản này thể hiện nguyên tắc "sai đâu sửa đó" - nếu người được kết nạp vẫn đủ tiêu chuẩn nhưng thủ tục trước đây có thiếu sót về mặt hành chính, thì không nhất thiết phải xóa tư cách đảng viên mà chỉ cần hoàn thiện và công nhận lại cho đúng quy định.`,
+
+      10: `Tương tự như mục 9 nhưng áp dụng cho giai đoạn công nhận đảng viên chính thức: quyết định này được ban hành khi việc công nhận chính thức trước đây có sai phạm về thủ tục hoặc thẩm quyền, và nay đã được khắc phục, hoàn thiện lại đúng quy định.\n\nSự tồn tại của văn bản này cho phép tổ chức đảng "chỉnh sửa" những sai sót hành chính trong quá khứ mà không gây thiệt thòi không cần thiết cho đảng viên, đồng thời đảm bảo hồ sơ được lưu trữ chính xác và có giá trị pháp lý đầy đủ.`,
+
+      11: `Quyết định hủy quyết định kết nạp đảng viên được ban hành khi phát hiện việc kết nạp từ trước vi phạm quy định hoặc người được kết nạp thực tế không đáp ứng tiêu chuẩn, điều kiện theo Điều lệ Đảng - ví dụ như khai man lý lịch, không đủ điều kiện chính trị, hoặc vi phạm nghiêm trọng chưa được phát hiện lúc xét kết nạp.\n\nĐây là biện pháp mạnh mẽ nhất để "thanh lọc" những trường hợp lọt qua quy trình xét duyệt. Nó khẳng định rằng tư cách đảng viên không thể được duy trì khi nền tảng ban đầu của việc kết nạp là sai trái, bảo vệ sự trong sạch và uy tín của tổ chức đảng.`,
+
+      12: `Quyết định hủy quyết định kết nạp lại đảng viên được ban hành khi phát hiện việc kết nạp lại (đối với người đã từng là đảng viên) cũng có sai phạm tương tự - sai về quy định, thủ tục hoặc tiêu chuẩn. Về bản chất, đây là biện pháp xử lý hậu kỳ tương tự mục 11 nhưng áp dụng riêng cho trường hợp "kết nạp lại".\n\nSự phân biệt giữa hủy kết nạp lần đầu và hủy kết nạp lại thể hiện sự chặt chẽ trong hệ thống văn bản của Đảng, giúp phân loại và truy xuất lịch sử một cách chính xác trong hồ sơ lưu trữ.`,
+
+      13: `Quyết định hủy quyết định công nhận đảng viên chính thức được ban hành khi việc công nhận chính thức từ trước đây là sai quy định hoặc đảng viên không thực sự đủ tiêu chuẩn. Khác với hủy kết nạp, văn bản này xảy ra ở giai đoạn chuyển từ dự bị sang chính thức.\n\nVăn bản này đảm bảo rằng chất lượng đảng viên được kiểm soát không chỉ ở khâu đầu vào mà cả ở giai đoạn chính thức hóa. Nếu phát hiện sai phạm ở bất kỳ giai đoạn nào, tổ chức đều có công cụ pháp lý để xử lý và điều chỉnh.`,
+
+      14: `Quyết định khôi phục quyền của đảng viên được ban hành sau khi một đảng viên đã bị tước một số quyền nhất định (thường do bị kỷ luật, đình chỉ sinh hoạt, hoặc cấp ủy) và nay đã hết thời hạn xử lý, đáp ứng đủ điều kiện để được trả lại các quyền đó.\n\nVăn bản này phản ánh nguyên tắc nhân đạo và công bằng: hình thức kỷ luật đảng là có thời hạn, không phải vĩnh viễn. Khi đảng viên đã thực sự sửa chữa, khắc phục sai phạm và hết thời gian thi hành kỷ luật, họ phải được trả lại quyền lợi đầy đủ. Quyết định khôi phục quyền chính thức hóa điều đó bằng văn bản.`,
+
+      15: `Quyết định nối lại sinh hoạt đảng được ban hành trong trường hợp đảng viên đã bị gián đoạn sinh hoạt đảng vì những lý do chính đáng như đang điều tra, bị giam giữ tạm thời, hoặc không liên lạc được - và nay đã được xác minh, giải quyết xong, đủ điều kiện tham gia sinh hoạt bình thường trở lại.\n\nSinh hoạt đảng là nghĩa vụ và quyền cơ bản của đảng viên. Việc tạm dừng sinh hoạt trong những hoàn cảnh đặc biệt là cần thiết nhưng không thể kéo dài vô thời hạn. Quyết định nối lại tái xác lập kết nối chính thức giữa đảng viên và tổ chức đảng, đảm bảo tính liên tục trong quản lý.`,
+
+      16: `Quyết định xóa tên trong danh sách đảng viên theo Điều 8 Điều lệ Đảng được áp dụng khi đảng viên có các hành vi như: không đóng đảng phí, không tham gia sinh hoạt đảng trong 3 tháng liên tiếp không có lý do chính đáng, hoặc tự ý bỏ sinh hoạt đảng. Đây không phải hình thức kỷ luật khai trừ mà là ghi nhận thực trạng đảng viên đó đã tự "rời bỏ" tổ chức trên thực tế.\n\nĐiều 8 Điều lệ Đảng trao cho tổ chức quyền hợp pháp xóa tên để giữ sạch danh sách đảng viên, đảm bảo con số thống kê phản ánh đúng thực tế. Đây là biện pháp cần thiết để tránh tình trạng "đảng viên ma" - người có tên trong danh sách nhưng không thực sự sinh hoạt, phấn đấu hay đóng góp cho tổ chức.`,
+
+      17: `Quyết định cho đảng viên ra khỏi Đảng được ban hành trong những trường hợp đặc biệt theo đề nghị của chính đảng viên hoặc tổ chức đảng, không phải do kỷ luật khai trừ. Ví dụ: đảng viên có lý do cá nhân chính đáng muốn thôi đảng và được tổ chức chấp thuận.\n\nSự tồn tại của văn bản này thể hiện tính tự nguyện trong tư cách đảng viên - gia nhập tự nguyện thì ra đi cũng có thể được giải quyết theo quy trình. Đây là kênh "thoát" hợp pháp, có trật tự, phân biệt rõ với khai trừ hoặc xóa tên, đảm bảo lịch sử của đảng viên được ghi nhận rõ ràng, trung thực.`,
+
+      18: `Giấy xác nhận tuổi Đảng là văn bản do tổ chức đảng cấp, xác nhận đảng viên đã có bao nhiêu năm tuổi đảng (tính từ ngày được kết nạp). Đây là căn cứ pháp lý để xem xét trao tặng Huy hiệu Đảng ở các mốc 30, 40, 45, 50, 55, 60, 65, 70 năm tuổi đảng.\n\nTuổi đảng là thước đo sự cống hiến lâu dài cho tổ chức. Nhiều trường hợp, hồ sơ gốc không đầy đủ hoặc quyết định kết nạp bị thất lạc, khiến việc xác định chính xác ngày kết nạp trở nên khó khăn. Giấy xác nhận tuổi đảng là văn bản thay thế, có giá trị pháp lý để giải quyết chính sách cho đảng viên trong những tình huống đó.`,
+
+      19: `Quyết định phát thẻ đảng viên là văn bản chính thức cấp cho đảng viên chiếc thẻ đảng viên - giấy tờ tùy thân quan trọng nhất của người đảng viên, chứng minh tư cách thành viên của họ trong Đảng. Thẻ đảng viên được phát sau khi hoàn thành các thủ tục kết nạp và đăng ký trong hệ thống.\n\nThẻ đảng viên không chỉ là vật chứng minh tư cách mà còn là biểu tượng của trách nhiệm và sự tin tưởng mà tổ chức trao gửi. Quyết định phát thẻ đi kèm thẻ tạo ra một hồ sơ đầy đủ về "vòng đời" của chiếc thẻ - từ khi cấp, khi mất, khi hỏng đến khi thu hồi - phục vụ quản lý chặt chẽ công cụ nhận diện đảng viên.`,
+
+      20: `Quyết định tặng Huy hiệu Đảng là văn bản ghi nhận sự trao thưởng phần thưởng cao quý nhất mà Đảng dành cho đảng viên lâu năm tại các mốc tuổi đảng quy định (30, 40, 45, 50, 55, 60, 65, 70 năm). Đây là hình thức vinh danh sự trung thành, cống hiến suốt đời cho lý tưởng của Đảng.\n\nHuy hiệu Đảng không chỉ là phần thưởng tinh thần mà còn là dấu ấn lịch sử trong hồ sơ đảng viên. Quyết định này được lưu trữ vĩnh viễn, ghi nhận đảng viên đã đạt đến ngưỡng cống hiến đó tại thời điểm cụ thể, tạo nên "di sản" lịch sử về quá trình phấn đấu của người đảng viên.`,
+
+      21: `Quyết định truy tặng Huy hiệu Đảng được ban hành khi đảng viên từ trần trước khi được tặng Huy hiệu, nhưng nếu còn sống thì đã đủ điều kiện tuổi đảng để nhận phần thưởng. Trong trường hợp này, Đảng vẫn trao phần thưởng cho gia đình như một sự ghi nhận trân trọng đối với người đã khuất.\n\nViệc truy tặng thể hiện đạo lý uống nước nhớ nguồn và sự trân trọng của tổ chức với những đảng viên đã cống hiến cả cuộc đời. Quyết định truy tặng cũng có giá trị quan trọng với gia đình và con cháu, là minh chứng về sự ghi nhận của Đảng với người thân của họ.`,
+
+      22: `Quyết định kỷ luật Đảng là văn bản xử lý kỷ luật đối với đảng viên vi phạm kỷ luật đảng theo các hình thức: khiển trách, cảnh cáo, cách chức, khai trừ. Đây là văn bản quan trọng nhất trong hồ sơ kỷ luật, thể hiện quan điểm xử lý chính thức của tổ chức đảng.\n\nKỷ luật đảng là biện pháp giữ gìn sự trong sạch và kỷ cương của tổ chức. Việc ban hành quyết định kỷ luật công khai, theo đúng quy trình dân chủ và thẩm quyền không chỉ trừng phạt hành vi sai trái mà còn có tác dụng giáo dục, răn đe với toàn thể đảng viên. Quyết định này phải lưu trữ vĩnh viễn trong hồ sơ, trở thành một phần trong lịch sử của đảng viên đó.`,
+
+      23: `Quyết định khen thưởng ghi nhận thành tích, cống hiến xuất sắc của đảng viên trong công tác, chiến đấu hoặc đóng góp vào sự nghiệp chung của Đảng và đất nước. Đây có thể là các danh hiệu, bằng khen, giấy khen từ các cấp khác nhau.\n\nKhen thưởng song hành với kỷ luật là hai mặt của cơ chế đánh giá đảng viên. Việc lưu trữ đầy đủ các quyết định khen thưởng trong hồ sơ tạo nên bức tranh toàn diện về quá trình cống hiến của đảng viên, phục vụ cho việc xem xét quy hoạch, bổ nhiệm và trao tặng các danh hiệu cao hơn sau này.`,
+
+      24: `Quyết định đình chỉ sinh hoạt đảng được ban hành khi đảng viên đang bị xem xét kỷ luật, điều tra hoặc có vi phạm nghiêm trọng cần thời gian làm rõ. Trong thời gian đình chỉ, đảng viên không được tham gia sinh hoạt, biểu quyết và không được thực hiện các quyền của đảng viên.\n\nĐình chỉ sinh hoạt là biện pháp tạm thời nhưng cần thiết để bảo vệ uy tín của tổ chức trong khi điều tra đang diễn ra. Nó cũng bảo vệ tính khách quan của quá trình xử lý - đảng viên đang bị xem xét kỷ luật không thể tiếp tục tác động đến các quyết định của chi bộ. Thời hạn đình chỉ thường là 90 ngày và có thể gia hạn.`,
+
+      25: `Quyết định đình chỉ cấp ủy được áp dụng khi một thành viên cấp ủy (ủy viên ban chấp hành, ban thường vụ...) đang bị điều tra hoặc xem xét kỷ luật. Trong thời gian đó, họ tạm thời không được thực hiện các quyền của cấp ủy viên như tham dự cuộc họp ra quyết định, biểu quyết các vấn đề nội bộ.\n\nKhác với đình chỉ sinh hoạt đảng thông thường, đình chỉ cấp ủy nhắm vào quyền thực thi quyền lực tổ chức - một cán bộ đang bị xem xét kỷ luật không nên có quyền quyết định đối với các vấn đề quan trọng của tổ chức, đảm bảo tính công tâm và trong sạch của quá trình lãnh đạo.`,
+
+      26: `Quyết định gia hạn đình chỉ sinh hoạt đảng được ban hành khi thời hạn đình chỉ ban đầu 90 ngày kết thúc nhưng quá trình điều tra, xem xét kỷ luật chưa kết thúc và cần thêm thời gian. Đây là biện pháp kéo dài hiệu lực của đình chỉ ban đầu trong khuôn khổ quy định.\n\nVăn bản này thể hiện tính linh hoạt nhưng cũng chặt chẽ của quy trình tố tụng nội bộ đảng. Mỗi lần gia hạn đều phải có căn cứ rõ ràng, không được gia hạn vô thời hạn, bảo vệ quyền lợi hợp pháp của đảng viên trong khi điều tra.`,
+
+      27: `Quyết định gia hạn đình chỉ cấp ủy có ý nghĩa tương tự mục 26 nhưng áp dụng riêng cho việc đình chỉ tư cách cấp ủy. Khi thời hạn đình chỉ cấp ủy kết thúc mà chưa có kết quả xử lý, cần tiếp tục kéo dài thì ban hành quyết định gia hạn.\n\nSự phân biệt giữa gia hạn đình chỉ sinh hoạt và gia hạn đình chỉ cấp ủy cho thấy hệ thống văn bản đảng có sự phân tầng rõ ràng theo từng loại quyền bị tạm dừng, giúp quản lý và truy xuất hồ sơ một cách chính xác.`,
+
+      28: `Quyết định giải quyết khiếu nại là văn bản của cấp ủy hoặc ủy ban kiểm tra khi xem xét đơn khiếu nại của đảng viên đối với các quyết định xử lý kỷ luật hoặc các quyết định liên quan đến quyền lợi của họ. Quyết định này có thể giữ nguyên, thay đổi hoặc bác bỏ nội dung bị khiếu nại.\n\nQuyền khiếu nại là quyền cơ bản của đảng viên, được Điều lệ Đảng bảo đảm. Thông qua cơ chế này, những quyết định sai trái hoặc thiếu căn cứ có thể được đính chính kịp thời. Quyết định giải quyết khiếu nại lưu trong hồ sơ tạo ra "bộ nhớ tổ chức" về quá trình phúc thẩm nội bộ, đảm bảo minh bạch.`,
+
+      29: `Quyết định giải quyết tố cáo là văn bản kết luận chính thức về việc xử lý đơn tố cáo của đảng viên hoặc tổ chức đối với một đảng viên khác về hành vi vi phạm. Nội dung xác định tố cáo đúng, sai hay một phần và hướng xử lý tiếp theo.\n\nTố cáo là một trong những công cụ quan trọng để tổ chức đảng biết được vi phạm của đảng viên từ bên trong. Quyết định giải quyết tố cáo không chỉ giải quyết vụ việc cụ thể mà còn bảo vệ người tố cáo đúng và xử lý người tố cáo sai nguyên tắc, tạo môi trường sinh hoạt đảng lành mạnh.`,
+
+      30: `Quyết định đình chỉ chức vụ trong đảng đối với cá nhân được ban hành khi đảng viên đang giữ chức vụ trong bộ máy đảng (ủy viên, bí thư, phó bí thư...) bị điều tra hoặc xem xét kỷ luật. Trong thời gian này, họ tạm thời không được thực hiện nhiệm vụ của chức vụ đó.\n\nViệc đình chỉ chức vụ ngăn chặn nguy cơ đảng viên bị điều tra lợi dụng quyền hạn để can thiệp vào quá trình xử lý, che giấu chứng cứ hoặc gây sức ép. Đây là biện pháp cần thiết để bảo đảm tính khách quan và nghiêm minh trong xử lý nội bộ.`,
+
+      31: `Quyết định cho trở lại sinh hoạt cấp ủy (hoặc sinh hoạt đảng) được ban hành sau khi đảng viên hoàn tất thời gian đình chỉ và đã được xử lý dứt điểm, không bị khai trừ hay bất kỳ hình thức kỷ luật nào ngăn cản sinh hoạt. Đây là tín hiệu tổ chức mở lại cánh cửa sinh hoạt đầy đủ cho đảng viên.\n\nVăn bản này đánh dấu sự kết thúc của giai đoạn "đình chỉ" và khôi phục hoàn toàn quyền sinh hoạt. Nó quan trọng vì không có quyết định này, đảng viên không có cơ sở pháp lý để tái tham gia sinh hoạt đảng, dù thời hạn đình chỉ đã hết.`,
+
+      32: `Thông báo kết luận giải quyết tố cáo là văn bản thông báo chính thức kết quả xử lý vụ tố cáo đến các bên liên quan, bao gồm người tố cáo và người bị tố cáo. Đây là bước cuối cùng trong quy trình xử lý tố cáo, đảm bảo tính công khai.\n\nSự minh bạch trong giải quyết tố cáo là nguyên tắc quan trọng. Việc thông báo kết luận giúp người tố cáo biết đơn của mình đã được xử lý như thế nào, người bị tố cáo được thông báo về kết quả xác minh, và tổ chức đảng thể hiện thái độ công tâm, không bao che hoặc xử lý qua loa.`,
+
+      33: `Thông báo về việc không giải quyết khiếu nại kỷ luật đảng được ban hành khi đơn khiếu nại không đủ căn cứ, không thuộc thẩm quyền giải quyết, hoặc quá thời hạn quy định. Đây là văn bản chính thức từ chối xem xét đơn khiếu nại kèm lý do rõ ràng.\n\nViệc có một thông báo chính thức về không giải quyết quan trọng hơn im lặng rất nhiều. Nó cho người khiếu nại biết lý do rõ ràng, có thể khiếu nại lên cấp cao hơn nếu không đồng ý, và đảm bảo tổ chức không có dư luận về việc "bỏ qua" đơn thư mà không trả lời.`,
+
+      34: `Kết luận kiểm tra khi có dấu hiệu vi phạm là văn bản của Ủy ban Kiểm tra hoặc Đoàn kiểm tra ghi nhận toàn bộ quá trình và kết quả kiểm tra, xác định hành vi vi phạm (nếu có) và kiến nghị biện pháp xử lý. Đây là tài liệu khởi đầu của hầu hết các quy trình kỷ luật đảng.\n\nKhi có dấu hiệu vi phạm, tổ chức đảng không thể xử lý ngay mà phải qua bước kiểm tra độc lập, toàn diện. Kết luận kiểm tra là kết quả của quá trình thu thập bằng chứng, lấy ý kiến các bên và đánh giá khách quan, đảm bảo quyết định xử lý sau đó có cơ sở chắc chắn.`,
+
+      35: `Kết luận minh oan hoặc không vi phạm là văn bản của cơ quan có thẩm quyền xác nhận đảng viên không vi phạm như bị tố cáo hoặc đã bị kỷ luật oan. Khi có kết luận này, đảng viên có quyền yêu cầu khôi phục quyền lợi và danh dự đã bị ảnh hưởng.\n\nVăn bản này có ý nghĩa đặc biệt quan trọng với đảng viên bị xử oan, đặc biệt trong những giai đoạn lịch sử nhiều phức tạp. Nó không chỉ giải oan cho cá nhân mà còn là căn cứ để tổ chức đảng rút kinh nghiệm, tránh những sai lầm tương tự trong xử lý nội bộ.`,
+
+      36: `Quyết định kỷ luật hành chính là quyết định xử lý kỷ luật của cơ quan nhà nước hay đơn vị sử dụng lao động đối với đảng viên về vi phạm hành chính trong thực hiện nhiệm vụ chuyên môn. Các hình thức gồm: khiển trách, cảnh cáo, hạ bậc lương, giáng chức, cách chức, buộc thôi việc.\n\nKỷ luật hành chính và kỷ luật đảng là hai hệ thống xử lý song song nhau. Một hành vi vi phạm có thể bị xử lý cả hai. Việc lưu giữ quyết định kỷ luật hành chính trong hồ sơ đảng viên đảm bảo tổ chức đảng nắm đủ thông tin về "hồ sơ vi phạm" toàn diện của đảng viên, phục vụ cho các quyết định nhân sự và kỷ luật đảng liên quan.`,
+
+      37: `Đơn xin vào Đảng là văn bản quần chúng tự viết tay, thể hiện nguyện vọng thiết tha được đứng vào hàng ngũ của Đảng, đồng thời cam kết chấp hành Cương lĩnh chính trị, Điều lệ Đảng và các quyết định của Đảng. Đây thường là tài liệu được viết từ trái tim, phản ánh nhận thức ban đầu của người xin vào Đảng.\n\nĐơn xin vào Đảng quan trọng vì nó thể hiện tính tự nguyện - nguyên tắc nền tảng trong việc gia nhập Đảng. Không ai được ép buộc vào Đảng; đơn tự viết là bằng chứng về ý chí và quyết tâm của cá nhân. Văn bản này được lưu giữ cùng hồ sơ như là dấu ấn ban đầu của hành trình phấn đấu.`,
+
+      38: `Giấy chứng nhận học lớp nhận thức về Đảng xác nhận người xin vào Đảng đã hoàn thành chương trình bồi dưỡng kiến thức về lịch sử Đảng, Cương lĩnh chính trị, Điều lệ Đảng và đường lối của Đảng. Đây là điều kiện bắt buộc trước khi được xem xét kết nạp.\n\nNgười vào Đảng không thể chỉ có động cơ và quyết tâm mà còn phải hiểu Đảng mình sắp gia nhập là gì, đề ra những gì và đòi hỏi gì ở đảng viên. Lớp nhận thức về Đảng cung cấp nền tảng lý luận cần thiết đó. Chứng nhận hoàn thành là bằng chứng của việc chuẩn bị có hệ thống, nghiêm túc cho tư cách đảng viên tương lai.`,
+
+      39: `Giấy giới thiệu người vào Đảng là văn bản của hai đảng viên chính thức - thường là những người trực tiếp biết quần chúng qua công tác, học tập hoặc sinh hoạt - xác nhận và bảo đảm uy tín cho người xin vào Đảng. Hai đảng viên này chịu trách nhiệm trước tổ chức về tính trung thực trong đánh giá.\n\nHệ thống bảo lãnh bởi đảng viên có kinh nghiệm là một cơ chế sàng lọc độc đáo và hiệu quả. Người bảo lãnh phải am hiểu quần chúng, biết rõ phẩm chất và lịch sử của họ qua thực tiễn chứ không chỉ qua hồ sơ. Điều này tạo ra một lớp đánh giá chủ quan nhưng thực chất, bổ sung cho các tài liệu hành chính khác trong hồ sơ.`,
+
+      40: `Nghị quyết giới thiệu đoàn viên ưu tú vào Đảng là văn bản chính thức của Ban Chấp hành Đoàn Thanh niên nơi đoàn viên sinh hoạt, đề xuất với tổ chức đảng xem xét kết nạp người đoàn viên đó vào Đảng. Đây phải là đoàn viên thực sự xuất sắc, được tập thể ban chấp hành đoàn nhất trí giới thiệu.\n\nĐoàn Thanh niên là trường học, là lực lượng kế cận của Đảng. Văn bản giới thiệu từ Đoàn khẳng định quần chúng đã được tôi luyện, thử thách trong môi trường đoàn thể và được tập thể đánh giá xứng đáng. Đây là kênh quan trọng nhất để Đảng tuyển chọn đảng viên trẻ có chất lượng.`,
+
+      41: `Nghị quyết giới thiệu đoàn viên công đoàn vào Đảng tương tự như giới thiệu của Đoàn Thanh niên nhưng xuất phát từ tổ chức Công đoàn - dành cho những cán bộ, công nhân, viên chức không còn ở trong độ tuổi Đoàn. Ban chấp hành công đoàn cơ sở xem xét và nhất trí giới thiệu thành viên ưu tú nhất để Đảng xem xét kết nạp.\n\nCông đoàn đại diện cho người lao động, là một trong những tổ chức chính trị - xã hội gắn bó mật thiết với đảng viên tại nơi làm việc. Giới thiệu từ công đoàn đảm bảo rằng người được giới thiệu không chỉ có phẩm chất chính trị mà còn được tập thể lao động tin tưởng và ghi nhận.`,
+
+      42: `Văn bản tổng hợp ý kiến nhận xét của các đoàn thể chính trị - xã hội nơi sinh hoạt và chi ủy nơi cư trú đối với người vào Đảng là một trong những tài liệu phản ánh "đánh giá đa chiều" từ nhiều góc độ khác nhau về quần chúng. Nó thu thập ý kiến từ môi trường công tác và cả môi trường sống của người đó.\n\nMột người có thể "diễn tốt" ở nơi công tác nhưng lại sống thiếu gương mẫu tại khu dân cư. Việc lấy ý kiến từ cả nơi sinh hoạt lẫn nơi cư trú tạo ra bức tranh toàn diện, khách quan hơn về tư cách, lối sống và quan hệ quần chúng của người xin vào Đảng, là cơ sở thực tế quan trọng bên cạnh hồ sơ giấy tờ.`,
+
+      43: `Nghị quyết đề nghị kết nạp đảng viên của chi bộ là kết quả biểu quyết tập thể của chi bộ - tế bào cơ sở trực tiếp nhất của Đảng - sau khi đã nghe báo cáo về quần chúng, thảo luận và bỏ phiếu. Phải có quá bán số đảng viên chính thức trong chi bộ đồng ý thì nghị quyết mới được thông qua.\n\nChi bộ là nơi gần nhất, hiểu rõ nhất về quần chúng xin vào Đảng vì trực tiếp làm việc và quan sát hàng ngày. Nghị quyết của chi bộ vì thế có giá trị thực tiễn cao nhất trong toàn bộ quy trình. Đây là bước quyết định của tập thể cơ sở trước khi trình lên cấp trên xem xét.`,
+
+      44: `Báo cáo thẩm định nghị quyết của chi bộ đề nghị kết nạp của đảng ủy bộ phận là bước kiểm tra trung gian do đảng ủy bộ phận (cấp giữa chi bộ và đảng ủy cơ sở) thực hiện. Họ rà soát lại toàn bộ hồ sơ, thủ tục, quy trình từ chi bộ để đảm bảo mọi thứ đúng quy định trước khi trình lên cấp cao hơn.\n\nCơ chế thẩm định nhiều tầng tăng cường tính chặt chẽ của quy trình. Đảng ủy bộ phận là "vòng lọc" thứ hai, bắt lỗi những sai sót về thủ tục hoặc hồ sơ thiếu sót trước khi đi đến quyết định kết nạp chính thức, tránh việc cấp trên phải trả về nhiều lần.`,
+
+      45: `Nghị quyết đề nghị kết nạp đảng viên của đảng ủy cơ sở là bước đề xuất chính thức từ cấp ủy cơ sở (đảng ủy xã/phường, cơ quan, doanh nghiệp...) lên cấp ủy có thẩm quyền. Đảng ủy cơ sở xem xét toàn bộ hồ sơ, kết quả thẩm định và thống nhất đề nghị ra quyết định kết nạp.\n\nĐây là "tiếng nói" cuối cùng của cơ sở trước khi quyết định kết nạp được ban hành. Nghị quyết này thể hiện sự đồng thuận và trách nhiệm của tập thể cấp ủy cơ sở với đề xuất kết nạp, là căn cứ quan trọng để cấp ủy cấp trên ra quyết định.`,
+
+      46: `Giấy chứng nhận học lớp đảng viên mới xác nhận đảng viên dự bị đã hoàn thành chương trình bồi dưỡng dành riêng cho đảng viên mới - thường kéo dài từ 5 đến 7 ngày. Chương trình bao gồm nội dung chuyên sâu hơn về Điều lệ, Cương lĩnh, đường lối và trách nhiệm của đảng viên.\n\nNếu lớp nhận thức về Đảng là giới thiệu sơ bộ cho quần chúng, thì lớp đảng viên mới là "khóa huấn luyện chính thức" ngay sau khi gia nhập. Đảng viên cần được trang bị đầy đủ kiến thức và kỹ năng để thực hiện đúng vai trò, trách nhiệm của mình ngay từ những ngày đầu.`,
+
+      47: `Bản tự kiểm điểm của đảng viên dự bị (đề nghị công nhận chính thức) là văn bản đảng viên tự đánh giá về quá trình tu dưỡng, rèn luyện, chấp hành kỷ luật và thực hiện nhiệm vụ trong 12 tháng dự bị. Đây là sự "tự soi gương" chính thức trước mặt tổ chức.\n\nYêu cầu đảng viên tự đánh giá bản thân - không phải để tổ chức đánh giá thay - thể hiện phương pháp giáo dục chủ động của Đảng. Qua đó, đảng viên thực sự nhìn lại bản thân, xác định ưu điểm cần phát huy và hạn chế cần khắc phục. Chi bộ dùng bản tự kiểm điểm này để đối chiếu với nhận xét thực tế và quyết định có đề nghị công nhận chính thức hay không.`,
+
+      48: `Bản nhận xét đảng viên dự bị của đảng viên được phân công giúp đỡ là đánh giá từ "người cố vấn" - đảng viên chính thức được phân công theo dõi sát sao quá trình rèn luyện của đảng viên dự bị trong 12 tháng. Đây là nhận xét từ người gần nhất, có điều kiện quan sát thực tế nhất.\n\nChế độ đảng viên giúp đảng viên dự bị là truyền thống quan trọng của Đảng, đảm bảo mỗi đảng viên mới đều có người dày dặn kinh nghiệm hướng dẫn. Nhận xét của người giúp đỡ có giá trị đặc biệt vì xuất phát từ quan sát thực tế, cụ thể và có thể so sánh với bản tự kiểm điểm để đánh giá tính trung thực.`,
+
+      49: `Văn bản tổng hợp ý kiến nhận xét của các đoàn thể và chi ủy nơi cư trú đối với đảng viên dự bị có mục đích và cơ chế tương tự mục 42 nhưng áp dụng cho giai đoạn 12 tháng dự bị. Nó kiểm tra xem đảng viên dự bị có thực sự sống gương mẫu, đúng với tiêu chuẩn đảng viên trong suốt thời gian này hay không.\n\nThời gian dự bị là thời gian thử thách thực sự. Đảng viên dự bị biết mình đang được theo dõi tại nơi công tác, nhưng chưa chắc đã gương mẫu ở nơi cư trú. Lấy ý kiến từ nơi ở đảm bảo sự đánh giá không bị giới hạn trong phạm vi công việc, phản ánh toàn bộ con người của đảng viên.`,
+
+      50: `Nghị quyết đề nghị công nhận đảng viên chính thức của chi bộ là quyết định tập thể của chi bộ, sau khi đã xem xét toàn bộ hồ sơ thời gian dự bị, nghe bản tự kiểm điểm, nhận xét của người giúp đỡ và các đoàn thể, rồi biểu quyết. Kết quả biểu quyết quyết định có đề nghị công nhận hay không.\n\nĐây là bước quan trọng nhất từ phía cơ sở trong quy trình chuyển chính thức. Chi bộ phải chịu trách nhiệm tập thể về quyết định đề nghị, điều đó tạo ra động lực theo dõi thực sự nghiêm túc quá trình rèn luyện của đảng viên dự bị, thay vì coi đây là thủ tục mang tính hình thức.`,
+
+      51: `Báo cáo thẩm định của đảng ủy bộ phận về đề nghị công nhận đảng viên chính thức là bước kiểm tra trung gian, tương tự mục 44 nhưng ở giai đoạn công nhận chính thức. Đảng ủy bộ phận rà soát lại toàn bộ hồ sơ giai đoạn dự bị và quy trình từ chi bộ để đảm bảo đủ điều kiện trình lên đảng ủy cơ sở.\n\nCơ chế thẩm định nhiều lớp áp dụng nhất quán từ khâu kết nạp đến công nhận chính thức, thể hiện sự chặt chẽ và nghiêm túc trong toàn bộ quy trình kết nạp và quản lý đảng viên mới.`,
+
+      52: `Nghị quyết đề nghị công nhận đảng viên chính thức của đảng ủy cơ sở là bước cuối cùng từ phía cơ sở trước khi cấp ủy có thẩm quyền ra quyết định. Đảng ủy cơ sở thống nhất đề nghị sau khi đã có đầy đủ hồ sơ và kết quả thẩm định từ cấp dưới.\n\nĐây là "lá phiếu tín nhiệm" chính thức của cấp ủy cơ sở đối với đảng viên dự bị, thể hiện rằng trong suốt 12 tháng thử thách, người đảng viên dự bị đã thực sự xứng đáng với sự tin tưởng mà tổ chức trao gửi từ ngày đầu kết nạp.`,
+
+      53: `Giấy chứng nhận người vào Đảng đang trong thời gian được tổ chức đảng giúp đỡ và xem xét kết nạp là văn bản xác nhận trạng thái "đang trong quy trình" của quần chúng - họ đã được chi bộ chính thức đưa vào danh sách xem xét và được đảng viên giúp đỡ, nhưng chưa có quyết định kết nạp.\n\nVăn bản này cần thiết trong những trường hợp quần chúng cần chứng minh quan hệ với tổ chức đảng trong thực tế công tác, ví dụ khi chuyển đơn vị trong thời gian đang xem xét kết nạp. Nó bảo vệ quyền lợi của quần chúng và đảm bảo quá trình xem xét không bị gián đoạn.`,
+
+      54: `Giấy giới thiệu sinh hoạt đảng chính thức là văn bản do đảng ủy cấp (hoặc chi ủy nơi đảng viên đang sinh hoạt) cấp khi đảng viên chuyển công tác hoặc cư trú lâu dài đến nơi khác, yêu cầu tổ chức đảng tại nơi mới tiếp nhận và cho phép đảng viên tiếp tục sinh hoạt đảng bình thường.\n\nSinh hoạt đảng không bị gián đoạn khi đảng viên di chuyển - đây là nguyên tắc đảm bảo tính liên tục trong quản lý và rèn luyện. Giấy giới thiệu sinh hoạt chính thức là "hộ chiếu" giúp đảng viên được chuyển tiếp êm ái, không bị "vô tổ chức" trong thời gian chuyển tiếp.`,
+
+      55: `Giấy giới thiệu sinh hoạt đảng tạm thời được cấp khi đảng viên chỉ đến sinh hoạt ở đơn vị khác trong thời gian ngắn - ví dụ đi học ngắn hạn, công tác tạm thời - sau đó sẽ quay về chi bộ gốc. Đây là giải pháp linh hoạt đảm bảo đảng viên không bỏ lỡ sinh hoạt đảng dù đang ở ngoài nơi thường trú.\n\nKhác với chuyển sinh hoạt chính thức, sinh hoạt tạm thời không làm thay đổi đơn vị quản lý chính của đảng viên. Nó giải quyết bài toán thực tế: đảng viên đi công tác, học tập nhưng vẫn cần duy trì nghĩa vụ sinh hoạt đảng theo quy định.`,
+
+      56: `Giấy giới thiệu sinh hoạt đảng ra ngoài nước là văn bản đặc biệt, cấp cho đảng viên được cử đi công tác, học tập hoặc làm việc ở nước ngoài trong thời gian dài. Nó giới thiệu đảng viên với tổ chức đảng (hoặc đảng ủy ngoài nước) nơi họ sẽ công tác để tiếp tục sinh hoạt đảng ở môi trường nước ngoài.\n\nViệc duy trì sinh hoạt đảng ở nước ngoài là đặc thù của Đảng Cộng sản Việt Nam - đảng viên dù ở đâu vẫn là đảng viên, vẫn có nghĩa vụ sinh hoạt và báo cáo với tổ chức. Đây là cơ chế quan trọng để giữ sự kết nối giữa đảng viên và tổ chức trong bối cảnh hội nhập quốc tế ngày càng sâu rộng.`,
+
+      57: `Phiếu công tác chính thức ngoài nước là tài liệu ghi nhận nhiệm vụ, thời gian và địa điểm công tác ngoài nước của đảng viên theo quyết định điều động chính thức, không phải công tác ngắn hạn. Đây là căn cứ để tổ chức đảng trong nước và ngoài nước phối hợp quản lý đảng viên.\n\nKhi đảng viên hoạt động ở nước ngoài, việc quản lý phức tạp hơn nhiều vì liên quan đến hai hệ thống tổ chức. Phiếu công tác chính thức tạo ra "bộ nhớ" rõ ràng về khoảng thời gian đảng viên ở nước ngoài, phục vụ cho việc cập nhật hồ sơ và đánh giá sau khi về nước.`,
+
+      58: `Phiếu công tác tạm thời ngoài nước tương tự phiếu công tác chính thức nhưng dành cho các chuyến đi ngắn hạn, có thời hạn nhất định. Nó ghi nhận mục đích, thời gian và đơn vị tiếp nhận ở nước ngoài, đảm bảo tổ chức trong nước theo dõi được đảng viên của mình.\n\nDù là công tác ngắn hạn, đảng viên vẫn cần có "giấy phép" chính thức và tổ chức cần biết họ đang ở đâu, làm gì. Phiếu công tác tạm thời là biện pháp quản lý linh hoạt mà không cần tiến hành thủ tục chuyển sinh hoạt phức tạp.`,
+
+      59: `Giấy giới thiệu sinh hoạt đảng nội bộ là văn bản cho phép đảng viên tham dự sinh hoạt đảng ở một chi bộ khác trong cùng đảng bộ (nội bộ) do yêu cầu công tác hoặc tổ chức. Thường dùng trong trường hợp đảng viên được điều động tạm thời sang bộ phận khác trong cùng cơ quan.\n\nKhác với giới thiệu sinh hoạt ra ngoài đơn vị, giới thiệu sinh hoạt nội bộ là thủ tục đơn giản hơn, chỉ cần thông báo và xác nhận nội bộ trong đảng bộ. Điều này phản ánh cơ chế quản lý linh hoạt phù hợp với thực tiễn điều động cán bộ thường xuyên trong các cơ quan lớn.`,
+
+      60: `Phiếu báo đảng viên chuyển sinh hoạt đảng chính thức là tờ thông báo nội bộ của đảng ủy gửi đến các cơ quan liên quan để cập nhật thông tin về việc một đảng viên đã chính thức chuyển sinh hoạt sang chi bộ mới. Đây là bước "đóng cửa" ở nơi cũ và "mở cửa" ở nơi mới theo nguyên tắc hành chính.\n\nViệc thông báo kịp thời và đầy đủ đảm bảo hệ thống dữ liệu đảng viên được đồng bộ, không xảy ra tình trạng một đảng viên "tồn tại" trên sổ sách của hai chi bộ cùng lúc hoặc không thuộc về chi bộ nào sau khi chuyển.`,
+
+      61: `Bản tự kiểm điểm hằng năm (3 năm gần nhất) và khi chuyển sinh hoạt đảng là tài liệu lưu lịch sử đánh giá năm của đảng viên. Mỗi năm, đảng viên tự đánh giá và chi bộ nhận xét, xếp loại - những bản này được lưu lại theo "ba năm gần nhất" trong hồ sơ, tạo bức tranh liên tục về quá trình tu dưỡng.\n\nXếp loại đảng viên hằng năm không phải chỉ để thống kê mà còn là cơ sở cho rất nhiều quyết định: quy hoạch, bổ nhiệm, tặng khen, xem xét kỷ luật. Việc lưu ba năm gần nhất đảm bảo cấp ủy nhận đảng viên mới chuyển đến có đủ thông tin lịch sử gần đây để đánh giá, không phải bắt đầu từ đầu.`,
+
+      62: `Bản tự kiểm điểm tại thời điểm chuyển sinh hoạt đảng là bản kiểm điểm đặc biệt, được lập chuyên biệt cho thời điểm chuyển sinh hoạt, có thêm nhận xét chính thức của chi bộ cũ. Đây là "tóm tắt hành trình" của đảng viên tại đơn vị cũ, gửi kèm khi chuyển hồ sơ sang chi bộ mới.\n\nChi bộ mới tiếp nhận một đảng viên chuyển đến cần biết ngay đặc điểm, ưu nhược điểm và lịch sử gần đây của người đó. Bản kiểm điểm khi chuyển sinh hoạt cùng với nhận xét của chi bộ cũ là "thư giới thiệu" quan trọng, giúp chi bộ mới hiểu đúng, tiếp quản và hỗ trợ đảng viên hiệu quả hơn.`,
+
+      63: `Bản kiểm điểm trong thời gian sinh hoạt đảng ở nước ngoài là văn bản đảng viên tự đánh giá quá trình tu dưỡng, chấp hành kỷ luật và thực hiện nhiệm vụ trong thời gian công tác ở nước ngoài, có xác nhận của cấp ủy ngoài nước. Đây là "bằng chứng" về hành trình của đảng viên khi xa Tổ quốc.\n\nMôi trường nước ngoài đặt ra nhiều thử thách đặc biệt với đảng viên - tiếp xúc với nhiều quan điểm, giá trị và tư tưởng khác nhau, dễ bị tác động và không có sự giám sát trực tiếp của tổ chức trong nước. Bản kiểm điểm này đảm bảo đảng viên vẫn được theo dõi và đánh giá có hệ thống dù ở xa.`,
+
+      64: `Quyết định biểu dương đảng viên bằng văn bản hoặc ghi trong nghị quyết chi bộ là hình thức khen ngợi nhẹ nhất - không phải danh hiệu chính thức nhưng vẫn được lưu thành văn bản chính thức trong hồ sơ. Thường dành cho những biểu hiện tốt, sáng kiến hay hoặc gương mẫu trong một việc cụ thể.\n\nBiểu dương cấp chi bộ nhằm khuyến khích, động viên kịp thời những hành vi tích cực ngay trong môi trường hàng ngày, không cần chờ đến kỳ khen thưởng cuối năm. Việc ghi lại trong hồ sơ giúp tích lũy thành tích và là căn cứ để xem xét khen thưởng cấp cao hơn sau này.`,
+
+      65: `Bản tự kiểm điểm của đảng viên vi phạm trong quá trình xem xét kỷ luật là tài liệu bắt buộc khi đảng viên bị xem xét kỷ luật - họ phải tự nhận thức về sai phạm, phân tích nguyên nhân, đề ra hướng khắc phục và chịu trách nhiệm trước tổ chức. Đây không phải là bản "nhận tội" mà là bước bắt buộc trong quy trình xử lý kỷ luật công khai, dân chủ.\n\nYêu cầu đảng viên tự kiểm điểm trước khi tổ chức kết luận thể hiện tinh thần: mỗi người phải nhìn nhận bản thân trước rồi tổ chức mới đánh giá. Điều này cũng cho thấy thái độ thành khẩn hay không của đảng viên, là yếu tố ảnh hưởng đến mức độ kỷ luật được áp dụng.`,
+
+      66: `Thông báo vi phạm của cơ quan pháp luật hoặc bản sao bản án hình sự gửi cấp ủy là tài liệu cơ quan pháp luật chuyển đến tổ chức đảng khi đảng viên bị khởi tố, truy tố hoặc kết án. Đây là "cầu nối" giữa hai hệ thống xử lý: hệ thống tư pháp nhà nước và hệ thống kỷ luật đảng.\n\nĐảng viên phạm pháp không chỉ bị xử lý theo pháp luật mà còn phải chịu trách nhiệm trước Đảng. Thông báo từ cơ quan pháp luật giúp tổ chức đảng nắm thông tin kịp thời để tiến hành các thủ tục kỷ luật đảng song song, tránh tình trạng đảng viên đã bị kết án nhưng tổ chức đảng không hay biết.`,
+
+      67: `Quyết định giải quyết khiếu nại về kỷ luật hành chính là văn bản kết quả xử lý đơn khiếu nại của đảng viên đối với hình thức kỷ luật hành chính đã áp dụng với họ. Khiếu nại hành chính và khiếu nại kỷ luật đảng là hai quy trình riêng biệt, nhưng cả hai đều cần được lưu trong hồ sơ đảng viên vì liên quan đến tư cách và quyền lợi của họ.\n\nViệc lưu giữ quyết định này đảm bảo hồ sơ phản ánh trung thực diễn biến vụ việc: không chỉ có hình thức kỷ luật ban đầu mà còn có kết quả phúc thẩm, giúp người đọc hồ sơ sau này hiểu đúng bối cảnh và hậu quả thực tế.`,
+
+      68: `Bản án hình sự có hiệu lực pháp luật là tài liệu tư pháp quan trọng nhất trong nhóm tài liệu liên quan đến vi phạm pháp luật. Khi đảng viên bị Tòa án kết tội, bản án có hiệu lực là căn cứ pháp lý để tổ chức đảng xem xét xử lý kỷ luật đảng theo quy định - tùy mức độ tội danh mà có thể dẫn đến khai trừ.\n\nBản án là văn bản khách quan nhất, có giá trị pháp lý cao nhất về hành vi phạm tội của đảng viên. Lưu giữ bản sao có chứng thực trong hồ sơ đảng viên đảm bảo sự chặt chẽ, minh bạch trong quá trình xử lý kỷ luật đảng và trả lời mọi khiếu nại sau này nếu có.`,
+
+      69: `Kết luận thanh tra hoặc kiểm toán liên quan đến cá nhân đảng viên là văn bản của cơ quan thanh tra hoặc kiểm toán nhà nước khi phát hiện sai phạm liên quan đến đảng viên trong quá trình quản lý tài chính, tài sản công, hoặc thực hiện chính sách. Đây thường là căn cứ quan trọng để tổ chức đảng xem xét kỷ luật.\n\nThanh tra và kiểm toán là công cụ giám sát từ bên ngoài, độc lập với tổ chức đảng. Kết luận của các cơ quan này có giá trị khách quan cao, bổ sung cho các đánh giá nội bộ. Việc lưu giữ kết luận thanh tra trong hồ sơ đảng viên đảm bảo sự minh bạch và phòng tránh bao che nội bộ.`,
+
+      70: `Bằng và chứng chỉ lý luận chính trị (sơ cấp, trung cấp, cao cấp, cử nhân) là bằng chứng về trình độ lý luận chính trị mà đảng viên đã đạt được qua quá trình học tập tại các trường đảng (Học viện Chính trị Quốc gia, trường chính trị tỉnh...). Trình độ lý luận chính trị là một trong những tiêu chuẩn quan trọng để xem xét bổ nhiệm cán bộ đảng viên.\n\nLý luận chính trị trang bị cho đảng viên nền tảng tư tưởng vững chắc, khả năng phân tích tình hình và vận dụng đường lối đúng đắn. Các bằng, chứng chỉ này phản ánh con đường học tập, nâng cao trình độ liên tục của đảng viên theo yêu cầu của Đảng ở từng giai đoạn và cương vị công tác.`,
+
+      71: `Quyết định cấp lại Huy hiệu Đảng bị mất là văn bản được ban hành khi đảng viên đã nhận Huy hiệu Đảng nhưng vì lý do nào đó (mất cắp, thiên tai...) bị mất và đề nghị được cấp lại. Cần có đủ thủ tục xác minh trước khi cấp lại để tránh trục lợi chính sách.\n\nHuy hiệu Đảng là vật phẩm có giá trị lịch sử và tinh thần rất cao. Việc cấp lại không phải tự nhiên mà phải qua quy trình, có văn bản chứng minh và quyết định chính thức. Quyết định cấp lại được lưu trong hồ sơ đảm bảo tính minh bạch: rõ ràng đây là lần cấp lại (không phải lần đầu), tránh nhầm lẫn trong quản lý.`,
+
+      72: `Quyết định cấp lại thẻ đảng viên bị mất là văn bản cần thiết khi đảng viên để mất thẻ đảng - giấy tờ tùy thân quan trọng nhất của đảng viên. Quy trình cấp lại bao gồm khai báo mất thẻ, kiểm tra nhân thân, xin phép cấp trên và ban hành quyết định trước khi in và cấp thẻ mới.\n\nThẻ đảng viên không phải chỉ là tờ giấy - nó là chứng minh tư cách đảng viên và được Đảng kiểm soát chặt chẽ số lượng phát hành. Mỗi thẻ đều có số hiệu riêng, mất thẻ phải khai báo ngay để vô hiệu hóa thẻ cũ. Quyết định cấp lại tạo dấu vết hành chính đầy đủ cho việc quản lý thẻ.`,
+
+      73: `Quyết định đổi lại thẻ đảng viên bị hỏng hoặc bị sai là văn bản áp dụng khi thẻ không còn sử dụng được do hỏng vật lý, hoặc có thông tin sai (ví dụ in sai tên, ngày sinh) cần được in lại. Khác với cấp lại do mất, đổi thẻ đòi hỏi phải nộp lại thẻ cũ.\n\nViệc quản lý từng chiếc thẻ đảng viên một cách nghiêm túc phản ánh tầm quan trọng của tài liệu này. Mọi thay đổi về thẻ - dù là cấp mới, cấp lại hay đổi - đều phải có quyết định kèm theo để hồ sơ phản ánh đúng trạng thái hiện tại của "giấy tờ tùy thân" đảng viên.`,
+
+      74: `Quyết định của Tòa án nhân dân hoặc Trích lục hộ tịch về thay đổi họ tên là văn bản pháp lý xác nhận đảng viên đã thay đổi tên gọi chính thức theo quyết định của cơ quan có thẩm quyền. Đây là căn cứ để điều chỉnh, cập nhật thông tin trong toàn bộ hồ sơ đảng viên.\n\nTên là thông tin định danh cơ bản nhất trong hồ sơ. Khi tên thay đổi mà không có văn bản giải thích đi kèm, hồ sơ sẽ có sự mâu thuẫn giữa các tài liệu khác nhau, gây khó khăn trong tra cứu và quản lý. Văn bản này giải quyết sự mâu thuẫn đó, đảm bảo tính nhất quán và truy xuất được của hồ sơ.`,
+
+      75: `Khai sinh gốc hoặc kết luận đính chính ngày tháng năm sinh là tài liệu giải quyết sự sai lệch về ngày sinh của đảng viên trong hồ sơ - một vấn đề khá phổ biến do sai sót trong khai sinh từ trước. Khi có căn cứ pháp lý xác định ngày sinh đúng, hồ sơ được cập nhật theo.\n\nNgày sinh ảnh hưởng trực tiếp đến nhiều chính sách quan trọng: tuổi nghỉ hưu, đủ tuổi bổ nhiệm, tuổi tặng Huy hiệu Đảng. Một sai sót nhỏ về ngày sinh có thể dẫn đến những bất công hoặc hệ quả pháp lý lớn. Tài liệu này đính chính một lần và có giá trị pháp lý vĩnh viễn.`,
+
+      76: `Xác nhận của UBND hoặc cơ quan công an về thay đổi quê quán, nơi cư trú là văn bản cập nhật thông tin địa lý của đảng viên trong hồ sơ, bao gồm cả trường hợp phân chia địa giới hành chính (ví dụ sáp nhập huyện, đổi tên xã) và cả trường hợp đảng viên chủ động thay đổi hộ khẩu, nơi ở.\n\nThông tin về quê quán và nơi cư trú quan trọng trong việc xác minh lý lịch, liên lạc và phân công công tác. Khi địa chỉ thay đổi mà không cập nhật, hồ sơ trở nên lỗi thời và gây khó khăn trong tra cứu. Xác nhận chính thức từ chính quyền địa phương đảm bảo tính pháp lý của việc cập nhật này.`,
+
+      77: `Quyết định xác định lại dân tộc của UBND cấp tỉnh là văn bản của cơ quan có thẩm quyền cao nhất ở địa phương về vấn đề này, ban hành khi có lý do chính đáng để thay đổi hoặc chính xác hóa thông tin dân tộc của đảng viên. Dân tộc là thông tin nhạy cảm và quan trọng trong hồ sơ cán bộ.\n\nThông tin dân tộc liên quan đến nhiều chính sách cán bộ dân tộc thiểu số. Sự không chính xác hoặc gian dối về dân tộc có thể dẫn đến hưởng chính sách sai. Quyết định của UBND tỉnh (cấp cao nhất cho vấn đề này) đảm bảo tính chính thống và không thể tranh cãi của thông tin được xác định lại.`,
+
+      78: `Kết luận hủy văn bằng hoặc xác định văn bằng không hợp lệ là văn bản của cơ quan giáo dục hay cơ quan có thẩm quyền khi phát hiện bằng cấp của đảng viên là giả, được cấp sai quy trình hoặc từ cơ sở không được công nhận. Đây là tài liệu quan trọng trong các vụ gian dối bằng cấp.\n\nBằng cấp trong hồ sơ đảng viên ảnh hưởng trực tiếp đến quyết định bổ nhiệm, điều động và đánh giá chất lượng. Một văn bằng không hợp lệ nếu không bị phát hiện và xử lý sẽ dẫn đến những bổ nhiệm sai, bất công với người khác. Kết luận hủy văn bằng là bước bắt buộc trước khi xem xét các hậu quả kỷ luật liên quan.`,
+
+      79: `Đơn xin miễn công tác và sinh hoạt đảng là văn bản đảng viên gửi tổ chức đề nghị được miễn tham gia sinh hoạt và thực hiện nhiệm vụ đảng viên vì lý do sức khỏe hoặc hoàn cảnh đặc biệt. Đây là bước khởi đầu của quy trình miễn - không phải đảng viên muốn thôi đảng mà chỉ muốn được miễn nghĩa vụ thực tế.\n\nChế độ miễn công tác và sinh hoạt đảng là chính sách nhân văn của Đảng, dành cho những đảng viên cao tuổi, đau ốm hoặc gặp hoàn cảnh đặc biệt mà không còn khả năng tham gia sinh hoạt đảng bình thường. Đơn xin miễn là tiếng nói của chính đảng viên, được tổ chức xem xét và quyết định sau khi có đầy đủ cơ sở.`,
+
+      80: `Giấy xác nhận của cơ sở y tế có thẩm quyền khi miễn vì lý do sức khỏe là tài liệu y tế bắt buộc, xác nhận tình trạng sức khỏe của đảng viên không cho phép họ tham gia sinh hoạt đảng bình thường. Chỉ những cơ sở y tế có thẩm quyền (không phải bất kỳ phòng khám nào) mới có giá trị để tổ chức đảng xem xét.\n\nYêu cầu xác nhận y tế từ cơ sở có thẩm quyền ngăn chặn việc lợi dụng lý do sức khỏe để né tránh sinh hoạt đảng. Nó đảm bảo chỉ những trường hợp thực sự cần thiết mới được miễn, bảo vệ tính nghiêm minh của kỷ luật sinh hoạt đảng.`,
+
+      81: `Nghị quyết chi bộ về việc cho đảng viên miễn công tác và sinh hoạt đảng là quyết định tập thể của chi bộ sau khi xem xét đơn xin miễn và giấy xác nhận y tế. Chi bộ thảo luận, đánh giá sự cần thiết và biểu quyết chấp thuận hay không chấp thuận đề nghị miễn.\n\nQuyết định miễn sinh hoạt ảnh hưởng đến quyền lợi và nghĩa vụ của đảng viên, vì vậy phải được tập thể chi bộ - nơi gần nhất biết hoàn cảnh thực tế - quyết định. Nghị quyết này là căn cứ để đảng ủy cấp trên xem xét và ban hành quyết định chính thức.`,
+
+      82: `Văn bản bổ sung lý lịch sau khi về nước là tài liệu đảng viên kê khai bổ sung những thông tin, sự kiện xảy ra trong thời gian công tác ở nước ngoài - những điều này chưa có trong lý lịch cũ hoặc trong bản kiểm điểm ngoài nước. Đây là bước "cập nhật lịch sử" sau khi đảng viên trở về.\n\nThời gian ở nước ngoài thường là khoảng trống trong hồ sơ đảng viên, đặc biệt khi kéo dài nhiều năm. Văn bản bổ sung lý lịch lấp đầy khoảng trống này, đảm bảo hồ sơ liên tục và đầy đủ. Nó cũng là cơ hội để đảng viên khai báo những thay đổi quan trọng như học thêm bằng cấp, kết hôn, thay đổi quan hệ gia đình... xảy ra ở nước ngoài.`,
+
+      83: `Giấy chứng tử của đảng viên là tài liệu xác nhận đảng viên đã từ trần. Đây là tài liệu cuối cùng được đưa vào hồ sơ, chính thức đóng lại "vòng đời đảng" của người đảng viên và là căn cứ để tổ chức đảng thực hiện các thủ tục tiếp theo như xóa tên trong danh sách, thống kê số lượng đảng viên, và xem xét truy tặng Huy hiệu Đảng (nếu đủ điều kiện).\n\nViệc lưu giữ giấy chứng tử trong hồ sơ đảng viên đảm bảo hồ sơ hoàn chỉnh từ đầu đến cuối cuộc đời hoạt động của người đảng viên. Hồ sơ này sau đó được lưu trữ theo quy định về lưu trữ tài liệu hồ sơ lịch sử.`,
+
+      84: `Bản tường trình về việc mất hồ sơ đảng viên kèm bản kiểm điểm trách nhiệm là tài liệu được lập khi toàn bộ hoặc một phần hồ sơ đảng viên bị thất lạc do thiên tai, hỏa hoạn, sự cố hoặc do lỗi quản lý. Bản tường trình mô tả rõ hoàn cảnh mất hồ sơ; bản kiểm điểm xác định trách nhiệm của người liên quan.\n\nHồ sơ đảng viên là tài liệu quan trọng, được lưu trữ vĩnh viễn. Mất hồ sơ là sự cố nghiêm trọng và phải được xử lý có trách nhiệm, không thể xóa bỏ hoặc im lặng. Tường trình và kiểm điểm trách nhiệm là bước đầu tiên để phục hồi hồ sơ theo quy định và rút kinh nghiệm trong công tác lưu trữ.`,
+
+      85: `Phiếu đảng viên cũ (các phiên bản trước) được giữ lại trong hồ sơ mà không hủy, đóng vai trò tài liệu lịch sử. Qua nhiều thời kỳ, các biểu mẫu phiếu đảng viên thay đổi; phiên bản cũ phản ánh thông tin của đảng viên tại thời điểm lập và có giá trị nghiên cứu lịch sử.\n\nNguyên tắc "không hủy, lưu làm lịch sử" thể hiện tư duy lưu trữ của hệ thống tổ chức đảng: lịch sử phải được bảo tồn nguyên vẹn, không xóa bỏ. Phiếu cũ đôi khi còn tiết lộ những thông tin quý giá như thay đổi chức vụ, thay đổi quan điểm khai báo qua các thời kỳ khác nhau, giúp so sánh và xác minh khi cần.`,
+
+      86: `Các văn bằng, chứng chỉ chuyên môn, nghiệp vụ, ngoại ngữ, tin học, bồi dưỡng chức danh, ngạch và chứng chỉ hành nghề là nhóm tài liệu phản ánh năng lực chuyên môn và quá trình học tập, nâng cao trình độ của đảng viên suốt cuộc đời công tác. Đây là minh chứng khách quan về năng lực thực tế.\n\nTrình độ chuyên môn là tiêu chuẩn quan trọng trong công tác cán bộ. Bản sao có chứng thực của các văn bằng, chứng chỉ được lưu trong hồ sơ đảng viên đảm bảo tính xác thực và tiện tra cứu. Nhóm tài liệu này cũng phục vụ kiểm tra, phát hiện bằng cấp giả hoặc không hợp lệ trong quá trình xét bổ nhiệm.`,
+
+      87: `Các quyết định điều động, bổ nhiệm là chuỗi văn bản ghi lại toàn bộ con đường công tác của đảng viên - từ vị trí nào đến vị trí nào, khi nào, ai quyết định. Chúng tạo nên "bảng lịch sử nghề nghiệp" chính thức, có giá trị pháp lý cao nhất.\n\nLịch sử điều động, bổ nhiệm là thước đo sự tín nhiệm và phát triển của đảng viên qua mắt tổ chức. Mỗi quyết định phản ánh đánh giá của cấp trên ở từng thời điểm. Chuỗi quyết định này còn là cơ sở để tính tổng thời gian giữ các chức vụ - thông tin cần thiết khi xem xét bổ nhiệm cấp cao hơn hoặc giải quyết chính sách.`,
+
+      88: `Quyết định nghỉ hưu là văn bản đánh dấu kết thúc chính thức của giai đoạn công tác nhà nước của đảng viên, khi đến tuổi nghỉ hưu theo quy định. Sau đó, đảng viên chuyển sang sinh hoạt đảng tại nơi cư trú và vẫn giữ tư cách đảng viên cho đến khi từ trần (nếu không có vi phạm).\n\nQuyết định nghỉ hưu là một mốc quan trọng trong hồ sơ - nó không kết thúc hồ sơ mà mở ra giai đoạn mới. Nhiều quyền lợi và chế độ của đảng viên sau nghỉ hưu (Huy hiệu Đảng, tổ chức tang lễ, xếp loại đảng viên) đều cần biết ngày chính thức nghỉ hưu. Quyết định này là cơ sở pháp lý cho tất cả các xử lý đó.`,
+
+      89: `Quyết định nghỉ mất sức lao động được ban hành khi đảng viên bị suy giảm khả năng lao động đến mức không thể tiếp tục công tác, được hội đồng y tế xác nhận và cơ quan có thẩm quyền quyết định cho nghỉ theo chế độ mất sức. Đây khác với nghỉ hưu bình thường về quyền lợi và điều kiện.\n\nVì chế độ mất sức lao động có các quyền lợi và yêu cầu khác với nghỉ hưu thông thường, việc lưu quyết định này trong hồ sơ đảng viên giúp tổ chức đảng tại nơi sinh hoạt mới hiểu được hoàn cảnh đặc biệt và áp dụng đúng chính sách phù hợp cho đảng viên đó.`,
+
+      90: `Quyết định phục viên hoặc chuyển ngành dành cho đảng viên từng phục vụ trong lực lượng vũ trang (quân đội, công an), nay hoàn thành nghĩa vụ quân sự và chuyển sang công tác dân sự. Đây là dấu mốc quan trọng, đánh dấu sự chuyển tiếp từ môi trường quân sự sang dân sự.\n\nĐảng viên từng là quân nhân mang theo "lý lịch quân đội" vào hồ sơ dân sự của mình. Quyết định phục viên/chuyển ngành là cầu nối giữa hai giai đoạn đó, giải thích sự thay đổi đơn vị công tác và chế độ sinh hoạt đảng. Đây cũng là tài liệu cần thiết để tính chế độ bảo hiểm, trợ cấp và thâm niên công tác.`,
+
+      91: `Quyết định xuất ngũ dành cho đảng viên là quân nhân hoàn thành nghĩa vụ quân sự bắt buộc hoặc hết hạn hợp đồng và trở về địa phương. Đây phản ánh việc chấm dứt quan hệ quân ngũ chính thức và bắt đầu giai đoạn mới trong đời đảng viên.\n\nMặc dù nhiều người xuất ngũ không tiếp tục phục vụ nhà nước, nhưng nếu họ là đảng viên thì tổ chức đảng tại địa phương cần biết về quá trình phục vụ quân đội của họ. Quyết định xuất ngũ là tài liệu kết nối quá khứ quân ngũ với hiện tại dân sự, đảm bảo hồ sơ đảng viên hoàn chỉnh và liên tục.`,
+
+      92: `Công văn của cấp ủy cơ sở giới thiệu người vào Đảng đã được chi bộ và đảng ủy cơ sở làm thủ tục đề nghị kết nạp là văn bản hành chính nội bộ, báo cáo tình trạng xử lý hồ sơ để cấp trên biết và theo dõi. Đây là một bước trong chuỗi thông tin liên lạc giữa các cấp trong quy trình kết nạp.\n\nTrong thực tiễn, hồ sơ kết nạp đảng viên thường phải di chuyển giữa nhiều cấp. Các công văn nội bộ này đảm bảo mỗi bước trong quy trình đều được ghi nhận bằng văn bản, tránh mất hồ sơ hoặc tranh cãi sau này về việc ai đã làm thủ tục gì ở giai đoạn nào.`,
+
+      93: `Công văn của cấp ủy có thẩm quyền giới thiệu người vào Đảng đã được cấp ủy cơ sở làm thủ tục là bước cao hơn trong chuỗi thông báo - khi hồ sơ đã vượt qua cấp cơ sở và đang chờ cấp thẩm quyền xem xét và ra quyết định. Công văn này xác nhận hồ sơ đã đầy đủ và được chuyển lên đúng quy trình.\n\nViệc lưu các công văn trung gian trong hồ sơ không phải là rườm rà - mỗi công văn là bằng chứng về một bước trong quy trình đã hoàn thành, đảm bảo tính minh bạch và có thể tra cứu toàn bộ "hành trình" của hồ sơ từ khi bắt đầu đến khi có quyết định kết nạp.`,
+
+      94: `Công văn giới thiệu người vào Đảng đã được cấp ủy có thẩm quyền ra quyết định kết nạp là thông báo chính thức sau khi quyết định kết nạp đã được ban hành, gửi đến các cấp liên quan để cập nhật thông tin và tiến hành các bước tiếp theo như phát thẻ, đăng ký sinh hoạt đảng tại chi bộ.\n\nSau khi có quyết định kết nạp, còn nhiều công việc hành chính cần thực hiện. Công văn này đóng vai trò "công bố" kết quả đến tất cả các bên, đảm bảo thông tin được truyền đạt đầy đủ và kịp thời trong hệ thống tổ chức đảng từ trên xuống dưới.`,
+
+      95: `Công văn giới thiệu người vào Đảng đã được kết nạp nhưng chuyển ra ngoài đảng bộ cấp xã (tương đương) là tài liệu xử lý trường hợp đặc biệt: người vừa được kết nạp nhưng ngay sau đó phải chuyển sinh hoạt đảng sang đảng bộ khác (vì chuyển công tác, học tập). Công văn này kết nối quyết định kết nạp với tổ chức đảng tiếp nhận mới.\n\nĐây là tình huống phức tạp về hành chính - người mới vào Đảng chưa kịp sinh hoạt ở nơi được kết nạp đã phải chuyển đi nơi khác. Công văn giải thích hoàn cảnh và đảm bảo tổ chức tiếp nhận không nhầm lẫn hoặc bỡ ngỡ khi tiếp nhận đảng viên mới chưa từng sinh hoạt ở cơ sở.`,
+
+      96: `Giấy giới thiệu cử đảng viên hoặc cấp ủy viên đi thẩm tra lý lịch của người vào Đảng là văn bản ủy quyền của đảng ủy hay chi ủy, cho phép một đảng viên cụ thể thay mặt tổ chức đi về địa phương gốc của người xin vào Đảng để xác minh thông tin lý lịch trực tiếp.\n\nThẩm tra lý lịch là bước không thể bỏ qua - hồ sơ tự khai phải được đối chiếu với thực tế. Giấy giới thiệu cho người đi thẩm tra có tư cách pháp lý để gặp gỡ chính quyền địa phương, hỏi hàng xóm, xác nhận thông tin. Không có giấy giới thiệu này, người đi thẩm tra không được phép thu thập thông tin chính thức thay mặt tổ chức.`,
+
+      97: `Công văn đề nghị thẩm tra lý lịch của người vào Đảng là văn bản chính thức của tổ chức đảng gửi đến cơ quan, địa phương liên quan đề nghị phối hợp xác minh lý lịch người xin vào Đảng. Đây là bước trước khi cử người trực tiếp đi thẩm tra hoặc thay thế cho việc cử người đến trong một số trường hợp.\n\nLý lịch của người vào Đảng cần được xác minh ở nhiều địa điểm khác nhau - quê quán, nơi học, nơi công tác trước đây. Việc gửi công văn chính thức đến từng nơi đảm bảo yêu cầu thẩm tra được thực hiện bài bản, có phản hồi bằng văn bản từ cơ quan được hỏi và lưu lại làm bằng chứng.`,
+
+      98: `Công văn chỉ đạo việc làm lại, thực hiện đúng quy định về thẩm quyền, thủ tục kết nạp đảng viên được ban hành khi cấp ủy cấp trên phát hiện quy trình kết nạp ở cơ sở có sai sót về thủ tục hoặc thẩm quyền và yêu cầu làm lại từ bước bị sai. Đây là chỉ đạo có tính bắt buộc, có thời hạn thực hiện.\n\nCơ chế "làm lại từ đầu" khi có sai sót thể hiện sự nghiêm khắc trong thực hiện quy trình. Thay vì bỏ qua hoặc hợp thức hóa sai phạm, Đảng yêu cầu tuân thủ đúng quy trình ngay cả khi đó là bất tiện. Công văn chỉ đạo và quá trình làm lại đều được lưu trong hồ sơ để chứng minh quy trình đã được hoàn thiện đúng đắn.`,
+
+      99: `Công văn chỉ đạo làm lại quy trình công nhận đảng viên chính thức có ý nghĩa và mục đích tương tự mục 98 nhưng áp dụng cho giai đoạn công nhận chính thức - khi thủ tục hoặc thẩm quyền ở khâu chuyển từ dự bị sang chính thức có sai sót và cần được hoàn thiện lại.\n\nSự nhất quán trong yêu cầu tuân thủ đúng quy trình ở cả hai giai đoạn (kết nạp và công nhận chính thức) cho thấy Đảng coi trọng tính pháp lý và chặt chẽ của toàn bộ quy trình đầu vào, không có ngoại lệ cho bất kỳ khâu nào.`,
+
+      100: `Phiếu báo đảng viên được công nhận chính thức là tờ thông báo nội bộ gửi các cơ quan liên quan (ban tổ chức cấp trên, cơ sở dữ liệu đảng viên) để cập nhật trạng thái của đảng viên từ "dự bị" sang "chính thức" trong hệ thống quản lý. Đây là bước cuối cùng trong quy trình hành chính sau khi quyết định công nhận được ban hành.\n\nTrong hệ thống quản lý đảng viên, trạng thái dự bị và chính thức có ý nghĩa khác nhau về quyền lợi và nghĩa vụ. Phiếu báo đảm bảo việc chuyển trạng thái được thực hiện đồng bộ trên toàn hệ thống, không chỉ trong hồ sơ giấy tại chi bộ mà còn trong cơ sở dữ liệu điện tử.`,
+
+      101: `Phiếu báo đảng viên ra khỏi Đảng là tờ thông báo nội bộ ghi nhận và thông báo việc một đảng viên chính thức không còn là thành viên của Đảng nữa - dù do kỷ luật khai trừ, tự nguyện xin ra hay các lý do khác. Phiếu này kích hoạt quá trình xóa tên trong hệ thống quản lý.\n\nViệc thông báo kịp thời và đầy đủ khi đảng viên ra khỏi Đảng là bắt buộc để đảm bảo dữ liệu đảng viên chính xác. Người đã ra khỏi Đảng không còn quyền và nghĩa vụ của đảng viên; thông báo sai hoặc chậm trễ có thể dẫn đến nhầm lẫn và tranh cãi về tư cách sau này.`,
+
+      102: `Phiếu báo đảng viên từ trần là tờ thông báo chính thức khi đảng viên qua đời, gửi đến các cơ quan quản lý để xóa tên khỏi danh sách đảng viên và kích hoạt các quy trình liên quan như truy tặng Huy hiệu Đảng (nếu đủ điều kiện), thống kê số lượng đảng viên và lưu hồ sơ vào kho lưu trữ.\n\nSự qua đời của đảng viên cần được xử lý hành chính đúng quy trình, không phải chỉ vì thủ tục mà còn vì gia đình người mất có quyền lợi liên quan (truy tặng, lễ tang...). Phiếu báo từ trần là điểm khởi đầu để tổ chức thực hiện đầy đủ nghĩa vụ và chính sách đối với đảng viên đã khuất.`,
+
+      103: `Tờ khai đề nghị tặng Huy hiệu Đảng là biểu mẫu do đảng ủy hoặc chi bộ quản lý đảng viên điền vào và trình lên cấp trên, đề nghị xem xét trao tặng Huy hiệu Đảng cho đảng viên khi đến mốc tuổi đảng quy định. Tờ khai xác nhận đủ điều kiện và kèm theo các tài liệu cần thiết.\n\nKhông phải tự nhiên đảng viên được tặng Huy hiệu Đảng mà phải có quy trình đề nghị từ cơ sở. Tờ khai này là bước khởi đầu của quy trình đó, đảm bảo đảng viên nào đủ điều kiện đều được xem xét kịp thời và không bị bỏ sót vì thiếu thủ tục.`,
+
+      104: `Tờ khai đề nghị truy tặng Huy hiệu Đảng là biểu mẫu tương tự mục 103 nhưng dành cho trường hợp đảng viên đã từ trần mà nếu còn sống thì đủ tuổi đảng để được tặng Huy hiệu. Gia đình hoặc tổ chức đảng nơi đảng viên sinh hoạt trước đây làm thủ tục đề nghị truy tặng.\n\nVăn bản này thể hiện tinh thần "không quên đồng chí đã khuất" - những người đã cống hiến cả cuộc đời cho Đảng vẫn được Đảng ghi nhận và vinh danh dù không còn có mặt để nhận phần thưởng. Truy tặng mang giá trị tinh thần to lớn với gia đình và cũng là sự ghi nhận lịch sử của tổ chức.`
+    };
+
+
+
+    /* ---------- Modal ---------- */
+    function openModal(n) {
+      const d = BY[n];
+      if (!d) return;
+      const isStar = PSET.has(n);
+      const plColor = { 1: 'var(--orange)', 2: 'var(--purple)', 3: 'var(--blue)' }[d.p];
+      $('#modalNum').textContent = n;
+      $('#modalNum').style.fontSize = n > 99 ? '1.1rem' : '1.6rem';
+      $('#modalTitle').innerHTML = esc(d.t) + (isStar ? '<span class="modal-star-badge">★ Ưu tiên</span>' : '');
+      const plLabel = document.createElement('span');
+      plLabel.className = 'modal-pl';
+      plLabel.style.background = plColor;
+      plLabel.textContent = { 1: 'PL 01 · Số hóa trước', 2: 'PL 02 · Số hóa sau', 3: 'PL 03 · Số hóa sau cùng' }[d.p];
+      const metaEl = $('#modalMeta');
+      metaEl.innerHTML = '';
+      metaEl.appendChild(plLabel);
+
+      const raw = DESC[n] || 'Chưa có mô tả chi tiết cho văn bản này.';
+      const paras = raw.split('\n\n').filter(Boolean);
+      const bodyEl = $('#modalBody');
+      bodyEl.innerHTML = '<div class="modal-label">MỤC ĐÍCH & Ý NGHĨA</div>' +
+        paras.map(p => `<p>${esc(p)}</p>`).join('');
+
+      $('#modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => $('#modalClose').focus(), 220);
+    }
+
+    function closeModal() {
+      $('#modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    $('#modalClose').onclick = closeModal;
+    $('#modalOverlay').onclick = e => { if (e.target === $('#modalOverlay')) closeModal(); };
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    /* ---------- Tabs ---------- */
+    let mode = store.get('mode', 'read');
+    function setMode(m) {
+      mode = m; store.set('mode', m);
+      document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+      $('#p-read').classList.toggle('on', m === 'read');
+      $('#p-quiz').classList.toggle('on', m !== 'read');
+      if (m !== 'read') startQuiz(m);
+      window.scrollTo({ top: 0 });
+    }
+    document.querySelectorAll('#tabs button').forEach(b => b.onclick = () => setMode(b.dataset.m));
+
+    /* ---------- Mode 1 ---------- */
+    const ICON_I = '<svg class="ico-i" viewBox="0 0 24 24" aria-hidden="true"><rect x="9.5" y="3" width="5" height="5"/><path d="M7 10.5h7.5V18H17v3H7v-3h2.5v-4.5H7z"/></svg>';
+    let filt = 'all', hideMode = false, query = '';
+    const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+    function hl(text) {
+      if (!query || /^\d+$/.test(query)) return esc(text);
+      const t = esc(text), nt = norm(text), nq = norm(query);
+      const i = nt.indexOf(nq);
+      if (i < 0 || nt.length !== text.length) return t;
+      return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + query.length)) + '</mark>' + esc(text.slice(i + query.length));
+    }
+    function renderRead() {
+      const nq = norm(query.trim());
+      let html = '';
+      [1, 2, 3].forEach(p => {
+        if (filt === '1' || filt === '2' || filt === '3') { if (String(p) !== filt) return; }
+        let items = DATA.filter(d => d.p === p);
+        if (filt === 'star') items = items.filter(d => PSET.has(d.n));
+        if (nq) items = items.filter(d => String(d.n) === nq || norm(d.t).includes(nq) || (/^\d+$/.test(nq) && String(d.n).startsWith(nq)));
+        if (!items.length) return;
+        const stars = items.filter(d => PSET.has(d.n)).length;
+        html += `<div class="sec p${p}"><div class="sec-h"><span>${PLNAME[p]}</span><small>${PLDESC[p]} · ${items.length} mục${stars ? ' · ★' + stars : ''}</small></div><div class="list">` +
+          items.map(d => `<div class="item${PSET.has(d.n) ? ' star' : ''}" data-n="${d.n}"><span class="no">${d.n}</span><span class="tx">${hl(d.t)}</span><button class="info-btn" data-info="${d.n}" title="Xem mô tả chi tiết" aria-label="Xem mô tả ${esc(d.t)}">${ICON_I}</button></div>`).join('') +
+          `</div></div>`;
+      });
+      $('#readList').innerHTML = html || '<div class="empty">Không tìm thấy 😢</div>';
+      $('#readList').classList.toggle('hide', hideMode);
+    }
+    $('#q').oninput = e => { query = e.target.value; renderRead() };
+    $('#filters').onclick = e => {
+      const b = e.target.closest('button'); if (!b) return;
+      if (b.id === 'hideBtn') { hideMode = !hideMode; b.classList.toggle('on', hideMode); renderRead(); return }
+      filt = b.dataset.f;
+      document.querySelectorAll('#filters [data-f]').forEach(x => x.classList.toggle('on', x === b));
+      renderRead();
+    };
+    $('#readList').onclick = e => {
+      // info button
+      const ib = e.target.closest('.info-btn');
+      if (ib) { openModal(+ib.dataset.info); return; }
+      // hide reveal
+      const it = e.target.closest('.item'); if (it && hideMode) it.classList.toggle('reveal');
+    };
+
+    /* ---------- Mode 2/3 ---------- */
+    let Q = null;
+    function startQuiz(m, opts) {
+      const isPrio = m === 'prio';
+      const saved = store.get('opt_' + m, { pl: 'all' });
+      const pl = (opts && opts.pl) || saved.pl;
+      store.set('opt_' + m, { pl });
+      const wrongMap = store.get('wrong', {});
+      let pool = DATA.filter(d => (isPrio ? PSET.has(d.n) : true) && (pl === 'all' || String(d.p) === pl)).map(d => d.n);
+      Q = {
+        m, isPrio, pl, pool, deck: shuffle(pool.slice()), total: pool.length, done: 0, ok: 0, bad: 0, streak: 0, best: 0,
+        cur: null, input: '', state: 'ask', wrong: wrongMap, retry: []
+      };
+      nextQ(); renderQuiz();
+    }
+    function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]] } return a }
+    function nextQ() {
+      Q.input = ''; Q.state = 'ask';
+      if (!Q.deck.length) { Q.cur = null; return }
+      let idx = 0;
+      const pickIdx = Q.deck.findIndex(n => (Q.wrong[n] || 0) > 0 && Math.random() < .5);
+      if (pickIdx >= 0) idx = pickIdx;
+      Q.cur = Q.deck.splice(idx, 1)[0];
+    }
+    function renderQuiz() {
+      const root = $('#quizRoot');
+      const isPrio = Q.isPrio;
+      const opts = `<div class="opts">
+    <button class="chip ${Q.pl === 'all' ? 'on' : ''}" data-pl="all">Tất cả</button>
+    <button class="chip ${Q.pl === '1' ? 'on' : ''}" data-pl="1">PL 01</button>
+    <button class="chip ${Q.pl === '2' ? 'on' : ''}" data-pl="2">PL 02</button>
+    <button class="chip ${Q.pl === '3' ? 'on' : ''}" data-pl="3">PL 03</button>
+    <button class="chip" data-act="restart">🔄 Làm lại</button>
+  </div>`;
+      const pct = Q.total ? Math.round(Q.done / Q.total * 100) : 0;
+      const stats = `<div class="stats">
+    <div class="stat"><b>${Q.done}/${Q.total}</b><span>Đã làm</span></div>
+    <div class="stat"><b>${Q.ok}</b><span>Đúng</span></div>
+    <div class="stat"><b>${Q.bad}</b><span>Sai</span></div>
+    <div class="stat"><b>🔥${Q.streak}</b><span>Chuỗi</span></div></div>
+    <div class="prog"><i style="width:${pct}%"></i></div>`;
+      if (!Q.total) { root.innerHTML = opts + '<div class="empty">Không có mục nào trong phụ lục này.</div>'; return }
+      if (Q.cur === null) {
+        root.innerHTML = opts + stats + `<div class="card done"><h2>🎉 Hoàn thành!</h2>
+      <p style="font-weight:800">Đúng ${Q.ok} · Sai ${Q.bad} · Chuỗi đúng dài nhất 🔥${Q.best}</p>
+      <p class="note">Các câu sai sẽ được ưu tiên xuất hiện sớm ở lượt sau.</p>
+      <button data-act="restart">🔄 Ôn lại từ đầu</button>
+      ${Object.keys(Q.wrong).some(n => Q.wrong[n] > 0 && Q.pool.includes(+n)) ? '<button data-act="wrongOnly" style="background:var(--red);color:#fff">❌ Chỉ ôn câu hay sai</button>' : ''}</div>`;
+        return;
+      }
+      const d = BY[Q.cur], star = PSET.has(d.n);
+      let fb = '';
+      if (Q.state === 'ok') fb = `<div class="fb ok"><span class="big">✅ Chính xác!</span><br>TT ${d.n}</div>`;
+      else if (Q.state === 'bad') fb = `<div class="fb no"><span class="big">❌ Sai rồi</span><br>Bạn nhập <b>${Q.input || '-'}</b> · Đáp án đúng: <span class="big">${d.n}</span></div>`;
+      else if (Q.state === 'skip') fb = `<div class="fb sk">Đáp án: <span class="big">${d.n}</span></div>`;
+      const asked = Q.state === 'ask';
+      root.innerHTML = opts + stats + `<div class="quiz">
+    <div class="card"><span class="qapp">PL 0${d.p}</span>
+      <div class="qlab">${isPrio ? '⭐ ƯU TIÊN' : '🧮 ÔN TẬP'} · Nhập số TT</div>
+      <div class="qtxt">${esc(d.t)}</div>
+      ${star && !isPrio ? '<p class="note">★ Đây là mục ưu tiên</p>' : ''}
+      ${fb}
+      <button class="chip" style="margin-top:12px;background:var(--yellow)" data-quiz-info="${d.n}"><span class="i-badge">${ICON_I}</span> Xem mô tả</button>
+    </div>
+    <div class="card pad">
+      <div class="screen" id="screen">${asked ? (Q.input || '&nbsp;') : esc(String(Q.input || '')) || '&nbsp;'}</div>
+      <div class="keys">
+        ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<button data-k="${n}">${n}</button>`).join('')}
+        <button class="del" data-act="del">⌫ Xoá</button>
+        <button class="zero" data-k="0">0</button>
+        <button class="ok" data-act="enter">${asked ? '✔ Xác nhận' : '➜ Tiếp'}</button>
+      </div>
+      <div class="row2">
+        <button data-act="clear" style="background:#fff">🧹 Xoá hết</button>
+        <button data-act="skip" ${asked ? '' : 'disabled style="opacity:.4"'}>👀 Xem đáp án</button>
+      </div>
+    </div></div>`;
+    }
+    function press(k) {
+      if (!Q || Q.cur === null || Q.state !== 'ask') return;
+      if (Q.input.length >= 3) return;
+      Q.input += k; $('#screen').textContent = Q.input;
+    }
+    function del() { if (Q && Q.state === 'ask') { Q.input = Q.input.slice(0, -1); $('#screen').innerHTML = Q.input || '&nbsp;' } }
+    function clearIn() { if (Q && Q.state === 'ask') { Q.input = ''; $('#screen').innerHTML = '&nbsp;' } }
+    function enter() {
+      if (!Q || Q.cur === null) return;
+      if (Q.state !== 'ask') { nextQ(); renderQuiz(); return }
+      if (!Q.input) { const s = $('#screen'); s.classList.remove('shake'); void s.offsetWidth; s.classList.add('shake'); return }
+      const n = Q.cur;
+      Q.done++;
+      if (+Q.input === n) {
+        Q.ok++; Q.streak++; Q.best = Math.max(Q.best, Q.streak); Q.state = 'ok';
+        if (Q.wrong[n] > 0) { Q.wrong[n]--; }
+      } else {
+        Q.bad++; Q.streak = 0; Q.state = 'bad';
+        Q.wrong[n] = (Q.wrong[n] || 0) + 1;
+        Q.deck.splice(Math.min(3 + Math.floor(Math.random() * 3), Q.deck.length), 0, n); Q.total++;
+      }
+      store.set('wrong', Q.wrong);
+      renderQuiz();
+    }
+    function skip() {
+      if (!Q || Q.state !== 'ask' || Q.cur === null) return;
+      Q.state = 'skip'; Q.done++; Q.streak = 0;
+      Q.wrong[Q.cur] = (Q.wrong[Q.cur] || 0) + 1; store.set('wrong', Q.wrong);
+      Q.deck.splice(Math.min(3, Q.deck.length), 0, Q.cur); Q.total++;
+      renderQuiz();
+    }
+    $('#quizRoot').onclick = e => {
+      const b = e.target.closest('button'); if (!b || b.disabled) return;
+      if (b.dataset.quizInfo) { openModal(+b.dataset.quizInfo); return; }
+      if (b.dataset.k !== undefined) return press(b.dataset.k);
+      if (b.dataset.pl) return startQuiz(mode, { pl: b.dataset.pl });
+      switch (b.dataset.act) {
+        case 'del': del(); break; case 'clear': clearIn(); break; case 'enter': enter(); break;
+        case 'skip': skip(); break; case 'restart': startQuiz(mode); break;
+        case 'wrongOnly': {
+          const w = Q.pool.filter(n => Q.wrong[n] > 0);
+          Object.assign(Q, { deck: shuffle(w.slice()), total: w.length, done: 0, ok: 0, bad: 0, streak: 0, best: 0 });
+          nextQ(); renderQuiz(); break;
+        }
+      }
+    };
+    document.addEventListener('keydown', e => {
+      if (mode === 'read' || e.target.tagName === 'INPUT') return;
+      if (/^\d$/.test(e.key)) press(e.key);
+      else if (e.key === 'Backspace') { e.preventDefault(); del() }
+      else if (e.key === 'Enter') { e.preventDefault(); enter() }
+      else if (e.key === 'Escape') clearIn();
+    });
+
+    /* scroll top */
+    addEventListener('scroll', () => $('#top').classList.toggle('show', scrollY > 500), { passive: true });
+    $('#top').onclick = () => scrollTo({ top: 0 });
+
+    renderRead();
+    setMode(mode);
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => { }));
+    }
+  </script>
+  <script>
+    let dp = null;
+    addEventListener('beforeinstallprompt', e => { e.preventDefault(); dp = e; document.getElementById('installBtn').style.display = 'block' });
+    document.getElementById('installBtn').onclick = async () => { if (!dp) return; dp.prompt(); await dp.userChoice; dp = null; document.getElementById('installBtn').style.display = 'none' };
+    addEventListener('appinstalled', () => { document.getElementById('installBtn').style.display = 'none' });
+  </script>
+</body>
+
+</html>
